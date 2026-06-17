@@ -510,19 +510,265 @@
     @keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
     /* ─── RESPONSIVE ─── */
-    @media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:700px){
-      .grid{grid-template-columns:1fr}
-      .sidebar{width:var(--sidebar-c)}
-      .logo-text,.sb-user-text,.nav-text,.nav-sec-lbl,.collapse-btn span,.nav-badge{display:none}
-      .sb-logo {
-        padding: 14px 0 !important;
-        justify-content: center !important;
+    .mobile-nav-toggle {
+      display: none;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: var(--ease);
+      outline: none;
+    }
+    .mobile-nav-toggle:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .mobile-nav-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 15, 26, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 199;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .sidebar-backdrop.active {
+      display: block;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-nav-toggle {
+        display: flex;
       }
-      .sb-logo img {
-        margin-left: 0 !important;
-        width: 44px !important;
-        height: auto !important;
+
+      /* Sidebar Drawer on Mobile */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        height: 100vh;
+        z-index: 250;
+        transform: translateX(-100%);
+        width: 280px !important;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 10px 0 30px rgba(0,0,0,0.25);
+      }
+      .sidebar.open {
+        transform: translateX(0) !important;
+      }
+      .sidebar.collapsed {
+        width: 280px !important;
+        transform: translateX(-100%) !important;
+      }
+      .sidebar.collapsed.open {
+        transform: translateX(0) !important;
+      }
+      
+      /* Make sure sidebar elements show in drawer */
+      .sidebar .logo-text,
+      .sidebar .sb-user-text,
+      .sidebar .nav-text,
+      .sidebar .nav-sec-lbl,
+      .sidebar .collapse-btn span,
+      .sidebar .nav-badge {
+        display: flex !important;
+      }
+      .sidebar .logo-text {
+        flex-direction: column;
+      }
+      .sidebar .sb-user-text {
+        flex-direction: column;
+      }
+      .sidebar.collapsed .logo-text,
+      .sidebar.collapsed .sb-user-text,
+      .sidebar.collapsed .nav-text,
+      .sidebar.collapsed .nav-sec-lbl,
+      .sidebar.collapsed .collapse-btn span,
+      .sidebar.collapsed .nav-badge {
+        display: flex !important;
+      }
+      .sidebar .sb-logo {
+        padding: 20px 16px 14px !important;
+        justify-content: flex-start !important;
+      }
+      .sidebar .sb-logo img {
+        margin-left: 48px !important;
+        width: auto !important;
+        height: 42px !important;
+      }
+      .sidebar .sb-user {
+        padding: 11px 12px !important;
+        margin: 12px 10px !important;
+        justify-content: flex-start !important;
+        background: rgba(255,255,255,0.06) !important;
+        border-color: rgba(255,255,255,0.06) !important;
+      }
+      .sidebar .nav-item {
+        padding: 8px 12px !important;
+        justify-content: flex-start !important;
+        margin: 2px 8px !important;
+      }
+      .sidebar .collapse-btn {
+        padding: 10px 12px !important;
+        justify-content: flex-start !important;
+      }
+
+      /* Main & Content */
+      .content {
+        padding: 12px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .card-body {
+        padding: 14px;
+      }
+
+      /* Header Adjustments */
+      .header {
+        padding: 12px 16px;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .h-check {
+        display: none;
+      }
+      .h-text {
+        flex: 1;
+        min-width: 150px;
+      }
+      .h-text h1 {
+        font-size: 17px;
+      }
+      .h-text p {
+        font-size: 11px;
+      }
+      .h-selector {
+        padding: 6px 10px;
+        border-radius: 20px;
+        margin-left: auto;
+      }
+      .h-selector select {
+        font-size: 11px;
+      }
+      .h-selector-icon, .h-selector-caret {
+        width: 20px;
+        height: 20px;
+      }
+      .h-selector-icon svg, .h-selector-caret svg {
+        width: 10px;
+        height: 10px;
+      }
+
+      /* Clock Sub-Bar */
+      .h-clock {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 6px 12px;
+        margin-top: 4px;
+        order: 3;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      .h-clock-time {
+        font-size: 12px;
+        gap: 4px;
+      }
+      .h-clock-icon {
+        width: 20px;
+        height: 20px;
+      }
+      .h-clock-icon svg {
+        width: 11px;
+        height: 11px;
+      }
+      .h-clock-date {
+        margin-top: 0;
+        font-size: 11px;
+        gap: 4px;
+      }
+      .h-clock-date-icon {
+        width: 16px;
+        height: 16px;
+      }
+      .h-clock-date-icon svg {
+        width: 9px;
+        height: 9px;
+      }
+
+      /* Parent Dashboard Mobile Styles */
+      .pd-container {
+        padding: 20px 12px;
+      }
+      .pd-title {
+        font-size: 24px;
+      }
+      .pd-subtitle {
+        font-size: 13px;
+      }
+      .pd-search-box {
+        margin-bottom: 24px;
+      }
+      .pd-search-input {
+        padding: 10px 12px 10px 36px;
+        font-size: 13px;
+      }
+      .pd-search-icon {
+        left: 12px;
+        width: 15px;
+        height: 15px;
+      }
+      .pd-grid {
+        gap: 16px;
+      }
+      .pd-card {
+        padding: 16px;
+      }
+      
+      /* Stat Box Spacings */
+      .att-stats, .monthly-row {
+        gap: 6px;
+      }
+      .att-stat, .monthly-cell {
+        padding: 10px 4px;
+      }
+      .att-stat-val, .monthly-val {
+        font-size: 18px;
+      }
+      .att-stat-lbl, .monthly-lbl {
+        font-size: 9px;
+      }
+      .ib-md {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+      }
+      .ib-md svg {
+        width: 15px;
+        height: 15px;
       }
     }
 
@@ -736,6 +982,7 @@
 </head>
 <body>
 <div class="app">
+  <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
 
 <!-- ══════════════ SIDEBAR ══════════════ -->
 <aside class="sidebar" id="sidebar">
@@ -783,6 +1030,9 @@
 
   <!-- HEADER -->
   <header class="header">
+    <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <div class="h-check">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
@@ -1299,7 +1549,10 @@
     <div class="pd-container">
       
       <!-- Top profile indicator -->
-      <div class="pd-header">
+      <div class="pd-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar" style="background: rgba(234, 88, 12, 0.1); border-color: rgba(234, 88, 12, 0.2); color: #ea580c;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
         <div class="pd-avatar" title="Parent Account">PA</div>
       </div>
       
@@ -1389,7 +1642,16 @@
     : '/api';
 
   /* ─── Sidebar & Clock ─── */
-  function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+  function toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (window.innerWidth <= 768) {
+      sb.classList.toggle('open');
+      if (backdrop) backdrop.classList.toggle('active');
+    } else {
+      sb.classList.toggle('collapsed');
+    }
+  }
 
   function tick() {
     const n = new Date(), ap = n.getHours()>=12?'PM':'AM';
@@ -1422,6 +1684,13 @@
       const view = item.getAttribute('data-view');
       if (view === 'home') switchView('view-home');
       else if (view === 'dashboard') switchView('view-dashboard');
+      
+      // Auto-close sidebar on mobile
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+        const backdrop = document.getElementById('sidebar-backdrop');
+        if (backdrop) backdrop.classList.remove('active');
+      }
     });
   });
 
