@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Holistic Evaluator – Learning Journey Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sidebar-bg: #0d0f1a;
+      --sidebar-w: 250px;
+      --sidebar-c: 70px;
+      --green:  #00c896;  --green-bg:  rgba(0,200,150,0.12);  --green-bd:  rgba(0,200,150,0.25);
+      --blue:   #4f8ef7;  --blue-bg:   rgba(79,142,247,0.12); --blue-bd:   rgba(79,142,247,0.25);
+      --purple: #a855f7;  --purple-bg: rgba(168,85,247,0.12); --purple-bd: rgba(168,85,247,0.25);
+      --orange: #f97316;  --orange-bg: rgba(249,115,22,0.12); --orange-bd: rgba(249,115,22,0.25);
+      --yellow: #f59e0b;  --yellow-bg: rgba(245,158,11,0.12); --yellow-bd: rgba(245,158,11,0.25);
+      --pink:   #ec4899;  --pink-bg:   rgba(236,72,153,0.12); --pink-bd:   rgba(236,72,153,0.25);
+      --red:    #ef4444;  --red-bg:    rgba(239,68,68,0.12);  --red-bd:    rgba(239,68,68,0.25);
+      --muted-bg: #f1f5f9; --muted-bd: #e2e8f0;
+      --card-bg: #fff; --body-bg: #f0f4ff;
+      --dark: #0f172a; --muted: #64748b; --light: #94a3b8;
+      --radius: 18px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.07);
+      --shadow-lg: 0 10px 40px rgba(0,0,0,0.13);
+      --ease: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--body-bg); color: var(--dark); }
+    .app { display: flex; height: 100vh; overflow: hidden; }
+
+    /* ═══════════════════════════════════
+       UNIVERSAL ICON BOX SYSTEM
+    ═══════════════════════════════════ */
+    /* Large: card headers */
+    .ib-lg {
+      width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0;
+      display: grid; place-items: center; border: 1.5px solid transparent;
+    }
+    .ib-lg svg { width: 24px; height: 24px; }
+
+    /* Medium: stat boxes, skill cells, monthly, grades */
+    .ib-md {
+      width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0;
+      display: grid; place-items: center; border: 1.5px solid transparent;
+      transition: var(--ease);
+    }
+    .ib-md svg { width: 18px; height: 18px; }
+
+    /* Small: section labels, inline labels */
+    .ib-sm {
+      width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+      display: grid; place-items: center; border: 1px solid transparent;
+    }
+    .ib-sm svg { width: 13px; height: 13px; }
+
+    /* Extra-small: inside text, badges */
+    .ib-xs {
+      width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0;
+      display: grid; place-items: center; border: 1px solid transparent;
+    }
+    .ib-xs svg { width: 11px; height: 11px; }
+
+    /* Color variants — bg + border + icon color */
+    .ib-green  { background: var(--green-bg);  border-color: var(--green-bd);  color: var(--green); }
+    .ib-blue   { background: var(--blue-bg);   border-color: var(--blue-bd);   color: var(--blue); }
+    .ib-purple { background: var(--purple-bg); border-color: var(--purple-bd); color: var(--purple); }
+    .ib-orange { background: var(--orange-bg); border-color: var(--orange-bd); color: var(--orange); }
+    .ib-yellow { background: var(--yellow-bg); border-color: var(--yellow-bd); color: var(--yellow); }
+    .ib-pink   { background: var(--pink-bg);   border-color: var(--pink-bd);   color: var(--pink); }
+    .ib-red    { background: var(--red-bg);    border-color: var(--red-bd);    color: var(--red); }
+    .ib-muted  { background: var(--muted-bg);  border-color: var(--muted-bd);  color: var(--muted); }
+
+    /* Solid (for nav, avatar-style) */
+    .ib-solid-green  { background: linear-gradient(135deg, var(--green), #059669);   color: #fff; border-color: transparent; }
+    .ib-solid-blue   { background: linear-gradient(135deg, var(--blue),  #2563eb);   color: #fff; border-color: transparent; }
+    .ib-solid-purple { background: linear-gradient(135deg, var(--purple), #7c3aed);  color: #fff; border-color: transparent; }
+    .ib-solid-orange { background: linear-gradient(135deg, var(--orange), #ea580c);  color: #fff; border-color: transparent; }
+    .ib-solid-pink   { background: linear-gradient(135deg, var(--pink),   #be185d);  color: #fff; border-color: transparent; }
+
+    /* ─── LAYOUT ─── */
+    .sidebar {
+      width: var(--sidebar-w); background: var(--sidebar-bg);
+      display: flex; flex-direction: column; flex-shrink: 0;
+      overflow: hidden; transition: width 0.35s ease; z-index: 200;
+    }
+    .sidebar.collapsed { width: var(--sidebar-c); }
+
+    /* Logo */
+    .sb-logo {
+      padding: 20px 16px 14px; display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: padding 0.35s ease;
+    }
+    .sb-logo img {
+      transition: margin-left 0.35s ease, width 0.35s ease, height 0.35s ease;
+    }
+    .sidebar.collapsed .sb-logo {
+      padding: 14px 0 !important;
+      justify-content: center !important;
+    }
+    .sidebar.collapsed .sb-logo img {
+      margin-left: 0 !important;
+      width: 44px !important;
+      height: auto !important;
+    }
+    .logo-icon {
+      width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--green), var(--blue));
+      border: 1.5px solid rgba(255,255,255,0.2);
+      display: grid; place-items: center;
+    }
+    .logo-icon svg { width: 20px; height: 20px; color: #fff; }
+    .logo-text { overflow: hidden; white-space: nowrap; }
+    .logo-text b { display: block; font-size: 15px; font-weight: 800; color: #fff; line-height: 1.1; }
+    .logo-text small { font-size: 10px; color: var(--green); font-weight: 600; letter-spacing: 1px; }
+
+    /* User card */
+    .sb-user {
+      margin: 12px 10px; padding: 11px 12px;
+      background: rgba(255,255,255,0.06); border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer; transition: var(--ease);
+    }
+    .sb-user:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.1); }
+    .sb-avatar {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      border: 2px solid rgba(255,255,255,0.2);
+      display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 14px;
+    }
+    .sb-user-text { overflow: hidden; white-space: nowrap; }
+    .sb-user-text strong { display: block; font-size: 13px; font-weight: 600; color: #fff; }
+    .sb-user-text span { font-size: 11px; color: var(--green); }
+
+    /* Collapsed Sidebar overrides */
+    .sidebar.collapsed .sb-user-text,
+    .sidebar.collapsed .nav-text,
+    .sidebar.collapsed .collapse-btn span,
+    .sidebar.collapsed .nav-badge,
+    .sidebar.collapsed .nav-sec-lbl {
+      display: none !important;
+    }
+    .sidebar.collapsed .sb-user {
+      padding: 11px 0 !important;
+      margin: 12px 6px !important;
+      justify-content: center !important;
+      background: transparent !important;
+      border-color: transparent !important;
+    }
+    .sidebar.collapsed .nav-item {
+      padding: 8px 0 !important;
+      justify-content: center !important;
+      margin: 2px 6px !important;
+    }
+    .sidebar.collapsed .collapse-btn {
+      padding: 10px 0 !important;
+      justify-content: center !important;
+    }
+
+    /* Nav */
+    .sb-nav { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+    .sb-nav::-webkit-scrollbar { width: 3px; }
+    .sb-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+    .nav-sec-lbl {
+      font-size: 10px; letter-spacing: 1.2px; font-weight: 700; text-transform: uppercase;
+      color: rgba(255,255,255,0.2); padding: 12px 18px 4px; white-space: nowrap;
+      transition: opacity 0.3s;
+    }
+    .sidebar.collapsed .nav-sec-lbl { opacity: 0; }
+    .nav-item {
+      display: flex; align-items: center; gap: 11px;
+      padding: 8px 12px; margin: 2px 8px; border-radius: 11px;
+      cursor: pointer; white-space: nowrap;
+      color: rgba(255,255,255,0.45); font-size: 13px; font-weight: 500;
+      transition: var(--ease); position: relative;
+    }
+    .nav-item:hover { color: #fff; background: rgba(255,255,255,0.07); }
+    .nav-item.active { color: #fff; background: rgba(255,255,255,0.1); }
+    .nav-item.active::before {
+      content: ''; position: absolute; left: -8px; top: 50%; transform: translateY(-50%);
+      width: 3px; height: 60%; background: var(--green); border-radius: 99px;
+    }
+    /* Nav icon box */
+    .nav-icon-box {
+      width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0;
+      display: grid; place-items: center;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: var(--ease);
+    }
+    .nav-icon-box svg { width: 17px; height: 17px; }
+    .nav-item.active .nav-icon-box { background: rgba(0,200,150,0.18); border-color: rgba(0,200,150,0.3); color: var(--green); }
+    .nav-item:hover .nav-icon-box { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.15); }
+    .nav-text { display: flex; flex-direction: column; overflow: hidden; }
+    .nav-text span { font-size: 13px; font-weight: 500; }
+    .nav-text small { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 1px; }
+    .nav-badge {
+      margin-left: auto; background: var(--green); color: #fff;
+      font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; flex-shrink: 0;
+    }
+
+    /* Footer */
+    .sb-footer { padding: 12px 8px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .collapse-btn {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+      border-radius: 11px; cursor: pointer; transition: var(--ease);
+      color: rgba(255,255,255,0.35); white-space: nowrap;
+    }
+    .collapse-btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
+    .collapse-arrow {
+      width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+      display: grid; place-items: center;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+      transition: var(--ease);
+    }
+    .collapse-arrow svg { width: 14px; height: 14px; transition: transform 0.35s; }
+    .sidebar.collapsed .collapse-arrow svg { transform: rotate(180deg); }
+    .collapse-btn span { font-size: 13px; font-weight: 500; }
+
+    /* ─── MAIN ─── */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+    /* ─── HEADER ─── */
+    .header {
+      background: linear-gradient(90deg, #199b4b 0%, #1e839b 50%, #2461e2 100%);
+      padding: 18px 28px; display: flex; align-items: center; gap: 14px;
+      flex-shrink: 0; position: relative; overflow: hidden;
+    }
+    .header::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.07), transparent 60%);
+    }
+    .h-check {
+      width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.35);
+      backdrop-filter: blur(8px); display: grid; place-items: center;
+    }
+    .h-check svg { width: 22px; height: 22px; color: #fff; }
+    .h-text { flex: 1; }
+    .h-text h1 { font-size: 21px; font-weight: 800; color: #fff; }
+    .h-text p { font-size: 12.5px; color: rgba(255,255,255,0.7); margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; animation: pulse 2s infinite; }
+
+    .h-selector {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 40px; padding: 8px 14px; flex-shrink: 0; cursor: pointer; transition: var(--ease);
+    }
+    .h-selector:hover { background: rgba(255,255,255,0.25); }
+    .h-selector-icon {
+      width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
+      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+      display: grid; place-items: center;
+    }
+    .h-selector-icon svg { width: 13px; height: 13px; color: #fff; }
+    .h-selector select {
+      background: none; border: none; color: #fff; font-family: 'Inter', sans-serif;
+      font-size: 12.5px; font-weight: 600; cursor: pointer; outline: none;
+    }
+    .h-selector select option { color: var(--dark); background: #fff; }
+    .h-selector-caret {
+      width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+      display: grid; place-items: center;
+    }
+    .h-selector-caret svg { width: 11px; height: 11px; color: rgba(255,255,255,0.8); }
+
+    .h-clock {
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 14px; padding: 10px 16px; text-align: center;
+      flex-shrink: 0; backdrop-filter: blur(8px);
+    }
+    .h-clock-time {
+      display: flex; align-items: center; gap: 7px; justify-content: center;
+      font-size: 17px; font-weight: 700; color: #fff; letter-spacing: 1px;
+    }
+    .h-clock-icon {
+      width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
+      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+      display: grid; place-items: center;
+    }
+    .h-clock-icon svg { width: 13px; height: 13px; color: #fff; }
+    .h-clock-date {
+      display: flex; align-items: center; gap: 6px; justify-content: center;
+      font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 5px;
+    }
+    .h-clock-date-icon {
+      width: 18px; height: 18px; border-radius: 4px;
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+      display: grid; place-items: center;
+    }
+    .h-clock-date-icon svg { width: 10px; height: 10px; color: rgba(255,255,255,0.7); }
+
+    /* ─── CONTENT ─── */
+    .content { flex: 1; overflow-y: auto; padding: 22px; }
+    .content::-webkit-scrollbar { width: 4px; }
+    .content::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
+    .grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: var(--card-bg); border-radius: var(--radius);
+      box-shadow: var(--shadow); overflow: hidden;
+      transition: var(--ease); animation: fadeUp 0.45s ease both;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.1s}
+    .card:nth-child(3){animation-delay:.15s}.card:nth-child(4){animation-delay:.2s}
+    .card:nth-child(5){animation-delay:.25s}.card:nth-child(6){animation-delay:.3s}
+    .card-body { padding: 20px; }
+
+    .card-header {
+      display: flex; align-items: center; gap: 13px; margin-bottom: 16px;
+      padding-bottom: 14px; border-bottom: 1px solid #f1f5f9;
+    }
+    .card-title-block { flex: 1; }
+    .card-title { font-size: 15px; font-weight: 700; line-height: 1.25; }
+    .card-sub {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 11.5px; color: var(--muted); margin-top: 4px;
+    }
+    /* sub icon box */
+    .card-sub .ib-xs { opacity: 0.8; }
+
+    /* border top & bottom */
+    .bt-green  { border-top: 3px solid var(--green); border-bottom: 3px solid var(--green); }
+    .bt-blue   { border-top: 3px solid var(--blue); border-bottom: 3px solid var(--blue); }
+    .bt-purple { border-top: 3px solid var(--purple); border-bottom: 3px solid var(--purple); }
+    .bt-pink   { border-top: 3px solid var(--pink); border-bottom: 3px solid var(--pink); }
+
+    /* ─── CALENDAR ─── */
+    .cal-header { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; margin-bottom: 4px; }
+    .cal-dh { text-align: center; font-size: 10.5px; font-weight: 600; color: var(--light); padding: 3px 0; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
+    .cal-cell {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 500; border-radius: 50%;
+      color: var(--muted); cursor: pointer; transition: var(--ease);
+    }
+    .cal-cell.empty { pointer-events: none; }
+    .cal-cell.present { background: linear-gradient(135deg,var(--green),#059669); color:#fff; font-weight:700; box-shadow:0 2px 8px rgba(0,200,150,.35); }
+    .cal-cell.absent  { background: linear-gradient(135deg,#ef4444,#dc2626); color:#fff; font-weight:700; box-shadow:0 2px 8px rgba(239,68,68,.35); }
+    .cal-cell.today   { background: linear-gradient(135deg,var(--purple),#7c3aed); color:#fff; font-weight:700; box-shadow:0 2px 8px rgba(168,85,247,.35); }
+    .cal-cell:not(.empty):not(.present):not(.absent):not(.today):hover { background: #f1f5f9; }
+
+    /* Attendance stat boxes */
+    .att-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin: 14px 0; }
+    .att-stat { text-align: center; padding: 14px 8px; border-radius: 13px; background: #f8fafc; border: 1px solid #f1f5f9; transition: var(--ease); }
+    .att-stat:hover { background: #f1f5f9; border-color: #e2e8f0; }
+    .att-stat-icon { display: flex; justify-content: center; margin-bottom: 8px; }
+    .att-stat-val { font-size: 22px; font-weight: 800; line-height: 1; }
+    .att-stat-lbl { font-size: 10px; color: var(--muted); margin-top: 4px; font-weight: 500; }
+
+    /* ─── DONUT ─── */
+    .donut-wrap { display: flex; justify-content: center; margin: 8px 0 14px; }
+    .donut-container { position: relative; width: 130px; height: 130px; }
+    .donut-svg { transform: rotate(-90deg); }
+    .donut-bg { fill: none; stroke: #f1f5f9; stroke-width: 13; }
+    .donut-seg { fill: none; stroke-width: 13; stroke-linecap: round; }
+    .donut-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .donut-pct { font-size: 26px; font-weight: 800; color: var(--dark); }
+    .donut-lbl { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+    /* Skill grid */
+    .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .skill-cell {
+      padding: 12px 10px; background: #f8fafc; border-radius: 13px; text-align: center;
+      border: 1px solid #f1f5f9; transition: var(--ease);
+    }
+    .skill-cell:hover { background: #f1f5f9; border-color: #e2e8f0; }
+    .skill-icon-row { display: flex; justify-content: center; margin-bottom: 7px; }
+    .skill-val { font-size: 18px; font-weight: 800; }
+    .skill-name { font-size: 10.5px; color: var(--muted); margin-top: 3px; }
+
+    /* Growth */
+    .growth-title {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12.5px; font-weight: 700; color: var(--dark); margin-bottom: 10px;
+    }
+    .growth-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .growth-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ─── PROGRESS BARS ─── */
+    .prog-item { margin-bottom: 13px; }
+    .prog-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; }
+    .prog-label { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 500; color: var(--dark); }
+    .prog-pct { font-size: 12.5px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+    .prog-pct .ib-xs { opacity: 0.8; }
+    .prog-bar { height: 8px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 99px; transition: width 1.3s cubic-bezier(0.4,0,0.2,1); }
+    .pf-green  { background: linear-gradient(90deg,var(--green),#059669); }
+    .pf-blue   { background: linear-gradient(90deg,var(--blue),#2563eb); }
+    .pf-purple { background: linear-gradient(90deg,var(--purple),#7c3aed); }
+    .pf-orange { background: linear-gradient(90deg,var(--orange),#ea580c); }
+    .pf-pink   { background: linear-gradient(90deg,var(--pink),#be185d); }
+
+    /* ─── MONTHLY STATS ─── */
+    .monthly-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin: 12px 0; }
+    .monthly-cell {
+      text-align: center; padding: 14px 6px; background: #f8fafc; border-radius: 13px;
+      border: 1px solid #f1f5f9; transition: var(--ease);
+    }
+    .monthly-cell:hover { background: #f1f5f9; border-color: #e2e8f0; }
+    .monthly-icon-row { display: flex; justify-content: center; margin-bottom: 7px; }
+    .monthly-val { font-size: 18px; font-weight: 800; }
+    .monthly-lbl { font-size: 10px; color: var(--muted); margin-top: 3px; }
+
+    /* ─── SECTION LABEL ─── */
+    .sec-label { display: flex; align-items: center; gap: 8px; margin-bottom: 11px; }
+    .sec-label-text {
+      font-size: 11px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.8px;
+    }
+
+    /* ─── FEEDBACK ─── */
+    .feedback-box {
+      background: linear-gradient(135deg,#fffbeb,#fef3c7);
+      border-left: 4px solid var(--yellow); border-radius: 13px;
+      padding: 13px 14px; margin: 12px 0;
+      border: 1px solid var(--yellow-bd); border-left: 4px solid var(--yellow);
+    }
+    .feedback-hdr { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .feedback-hdr-txt { font-size: 11px; font-weight: 700; color: #92400e; text-transform: uppercase; letter-spacing: 0.6px; }
+    .feedback-text { font-size: 12px; color: #78350f; font-style: italic; line-height: 1.65; }
+    .feedback-author { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #92400e; font-weight: 600; margin-top: 9px; }
+
+    /* ─── ACTIVITY ITEMS ─── */
+    .activity-item {
+      display: flex; align-items: center; gap: 12px; padding: 12px;
+      background: #f8fafc; border-radius: 13px; margin-bottom: 10px;
+      border: 1px solid #f1f5f9; transition: var(--ease);
+    }
+    .activity-item:hover { background: #f1f5f9; border-color: #e2e8f0; }
+    .activity-info { flex: 1; min-width: 0; }
+    .activity-name { font-size: 13px; font-weight: 600; color: var(--dark); }
+    .activity-status { display: flex; align-items: center; gap: 6px; font-size: 11px; margin-top: 4px; font-weight: 600; }
+    .activity-date   { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .activity-score-box { text-align: right; flex-shrink: 0; }
+    .activity-score-val { font-size: 20px; font-weight: 800; }
+    .activity-score-lbl { font-size: 10px; color: var(--muted); margin-top: 1px; display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
+
+    /* ─── ASSESSMENTS ─── */
+    .assess-item { margin-bottom: 14px; }
+    .assess-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 7px; }
+    .assess-name { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 600; }
+    .assess-score { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; }
+
+    /* Grades */
+    .grade-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+    .grade-cell {
+      padding: 13px 8px; background: #f8fafc; border-radius: 13px; text-align: center;
+      border: 1px solid #f1f5f9; transition: var(--ease); cursor: pointer;
+    }
+    .grade-cell:hover { background: #f1f5f9; border-color: #e2e8f0; transform: scale(1.02); }
+    .grade-icon-row { display: flex; justify-content: center; margin-bottom: 7px; }
+    .grade-val  { font-size: 21px; font-weight: 800; }
+    .grade-subj { font-size: 10.5px; color: var(--muted); margin-top: 3px; }
+
+    /* ─── PARTNERSHIP ─── */
+    .partner-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .partner-label { flex: 1; font-size: 12.5px; color: var(--dark); }
+    .badge {
+      padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 600;
+      display: flex; align-items: center; gap: 5px; white-space: nowrap;
+      border: 1px solid transparent;
+    }
+    .bdg-green  { background: var(--green-bg);  border-color: var(--green-bd);  color: #059669; }
+    .bdg-blue   { background: var(--blue-bg);   border-color: var(--blue-bd);   color: #2563eb; }
+    .bdg-purple { background: var(--purple-bg); border-color: var(--purple-bd); color: #7c3aed; }
+
+    .upcoming-item { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .upcoming-text strong { font-size: 12.5px; font-weight: 600; color: var(--dark); display: block; }
+    .upcoming-text span { font-size: 11px; color: var(--muted); }
+
+    .ps-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+    .ps-label { font-size: 12.5px; font-weight: 600; color: var(--dark); }
+    .ps-val { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 800; color: var(--green); }
+
+    /* ─── DIVIDER ─── */
+    .divider { height: 1px; background: #f1f5f9; margin: 14px 0; }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 11px 18px; border-radius: 12px; border: none;
+      cursor: pointer; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      transition: var(--ease);
+    }
+    .btn-icon {
+      width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
+      display: grid; place-items: center; background: rgba(255,255,255,0.25);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .btn-icon svg { width: 13px; height: 13px; color: #fff; }
+    .btn-green  { background: linear-gradient(135deg,var(--green),#059669); color:#fff; box-shadow: 0 4px 14px rgba(0,200,150,.35); }
+    .btn-green:hover  { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(0,200,150,.5); }
+    .btn-blue   { background: linear-gradient(135deg,var(--blue),#2563eb);  color:#fff; box-shadow: 0 4px 14px rgba(79,142,247,.35); }
+    .btn-blue:hover   { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(79,142,247,.5); }
+    .btn-purple { background: linear-gradient(135deg,var(--purple),#7c3aed); color:#fff; box-shadow: 0 4px 14px rgba(168,85,247,.35); }
+    .btn-purple:hover { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(168,85,247,.5); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:700px){
+      .grid{grid-template-columns:1fr}
+      .sidebar{width:var(--sidebar-c)}
+      .logo-text,.sb-user-text,.nav-text,.nav-sec-lbl,.collapse-btn span,.nav-badge{display:none}
+      .sb-logo {
+        padding: 14px 0 !important;
+        justify-content: center !important;
+      }
+      .sb-logo img {
+        margin-left: 0 !important;
+        width: 44px !important;
+        height: auto !important;
+      }
+    }
+
+    /* ─── PARENT DASHBOARD ─── */
+    .pd-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .pd-header {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+    .pd-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #fdf2e9;
+      color: #ea580c;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      border: 1px solid #fed7aa;
+      box-shadow: 0 2px 8px rgba(234,88,12,0.1);
+    }
+    .pd-title-section {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+    .pd-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: #d97706;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .pd-subtitle {
+      font-size: 15px;
+      color: #1e3a8a;
+      font-weight: 500;
+    }
+    .pd-search-box {
+      width: 100%;
+      max-width: 600px;
+      position: relative;
+      margin-bottom: 50px;
+    }
+    .pd-search-input {
+      width: 100%;
+      padding: 14px 16px 14px 44px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #334155;
+      outline: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+    .pd-search-input:focus {
+      border-color: #f97316;
+      box-shadow: 0 4px 16px rgba(249,115,22,0.1);
+    }
+    .pd-search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      width: 18px;
+      height: 18px;
+    }
+    .pd-section-title {
+      width: 100%;
+      font-size: 18px;
+      font-weight: 700;
+      color: #ea580c;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .pd-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media(max-width: 768px) {
+      .pd-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .pd-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1.5px solid #fed7aa;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(234,88,12,0.02);
+    }
+    .pd-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(234,88,12,0.08);
+      border-color: #f97316;
+    }
+    .pd-card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .pd-card-avatar {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fed7aa;
+    }
+    .pd-card-avatar-initials {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: #2563eb;
+      font-weight: 700;
+      font-size: 16px;
+      display: grid;
+      place-items: center;
+      border: 2px solid #bfdbfe;
+    }
+    .pd-card-info h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ea580c;
+      margin-bottom: 4px;
+    }
+    .pd-card-email {
+      font-size: 12px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pd-card-email svg {
+      width: 13px;
+      height: 13px;
+    }
+    .pd-card-details {
+      padding-top: 16px;
+      border-top: 1px solid #f1f5f9;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pd-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #475569;
+    }
+    .pd-detail-item svg {
+      width: 15px;
+      height: 15px;
+      color: #94a3b8;
+    }
+    .pd-card-action {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0284c7;
+      text-decoration: none;
+      padding: 12px 16px;
+      background: #fdfaff;
+      border-radius: 10px;
+      border: 1px solid #f0e6ff;
+      transition: all 0.2s;
+    }
+    .pd-card-action:hover {
+      background: #f5f0ff;
+      color: #0369a1;
+    }
+
+    /* Orange active theme override for the Dashboard nav item */
+    .nav-item.orange-theme.active {
+      color: #f97316 !important;
+      background: rgba(249,115,22,0.08) !important;
+    }
+    .nav-item.orange-theme.active .nav-icon-box {
+      background: rgba(249,115,22,0.15) !important;
+      border-color: rgba(249,115,22,0.3) !important;
+      color: #f97316 !important;
+    }
+    .nav-item.orange-theme.active::before {
+      background: #f97316 !important;
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside class="sidebar" id="sidebar">
+
+  <div class="sb-logo" style="padding: 14px 16px; display: flex; align-items: center;">
+    <img src="holistic_logo.png" alt="Holistic Evaluator" style="height: 42px; width: auto; object-fit: contain; margin-left: 48px;" />
+  </div>
+
+  <div class="sb-user">
+    <div class="sb-avatar">SD</div>
+    <div class="sb-user-text">
+      <strong>Sofia Delgado</strong>
+      <span>Grade BV1</span>
+    </div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="nav-item active" data-view="home">
+      <div class="nav-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="nav-text"><span>Home</span><small>Overview</small></div>
+    </div>
+    <div class="nav-item orange-theme" data-view="dashboard">
+      <div class="nav-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      </div>
+      <div class="nav-text"><span>Dashboard</span><small>Parent View</small></div>
+    </div>
+  </nav>
+
+  <div class="sb-footer">
+    <div class="collapse-btn" onclick="toggleSidebar()">
+      <div class="collapse-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <span>Collapse</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<main class="main">
+  <div id="view-home" class="main-view" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="h-check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="h-text">
+      <h1>Welcome, Miguel Delgado!</h1>
+      <p><span class="live-dot"></span>Sofia Delgado's Learning Journey Dashboard</p>
+    </div>
+    <div class="h-selector">
+      <div class="h-selector-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <select><option>Sofia Delgado – Grade BV1</option><option>Another Learner</option></select>
+      <div class="h-selector-caret">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+    <div class="h-clock">
+      <div class="h-clock-time">
+        <div class="h-clock-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <span id="clockTime">12:24:54 PM</span>
+      </div>
+      <div class="h-clock-date">
+        <div class="h-clock-date-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <span id="clockDate">Jun 17, 2026</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+    <div class="grid">
+
+      <!-- ══ CARD 1: ATTENDANCE ══ -->
+      <div class="card bt-green">
+        <div class="card-body">
+          <div class="card-header">
+            <div class="ib-lg ib-green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="card-title-block">
+              <div class="card-title" style="color:var(--green)">Sofia Delgado's Attendance</div>
+              <div class="card-sub">
+                <div class="ib-xs ib-muted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                June 2026 Overview
+              </div>
+            </div>
+          </div>
+
+          <div class="cal-header">
+            <div class="cal-dh">S</div><div class="cal-dh">M</div><div class="cal-dh">T</div>
+            <div class="cal-dh">W</div><div class="cal-dh">T</div><div class="cal-dh">F</div><div class="cal-dh">S</div>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+
+          <div class="att-stats">
+            <div class="att-stat">
+              <div class="att-stat-icon">
+                <div class="ib-md ib-green">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+              </div>
+              <div class="att-stat-val" id="att-rate" style="color:var(--green)">100%</div>
+              <div class="att-stat-lbl">Attendance Rate</div>
+            </div>
+            <div class="att-stat">
+              <div class="att-stat-icon">
+                <div class="ib-md ib-blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+              </div>
+              <div class="att-stat-val" id="att-present" style="color:var(--blue)">5</div>
+              <div class="att-stat-lbl">Present Days</div>
+            </div>
+            <div class="att-stat">
+              <div class="att-stat-icon">
+                <div class="ib-md ib-red">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </div>
+              </div>
+              <div class="att-stat-val" id="att-missed" style="color:var(--red)">0</div>
+              <div class="att-stat-lbl">Missed Days</div>
+            </div>
+          </div>
+
+          <button class="btn btn-green">
+            <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            View Complete Attendance Report
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ CARD 2: COMPETENCIES ══ -->
+      <div class="card bt-purple">
+        <div class="card-body">
+          <div class="card-header">
+            <div class="ib-lg ib-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="card-title-block">
+              <div class="card-title" style="color:var(--purple)">Sofia Delgado's Competencies</div>
+              <div class="card-sub">
+                <div class="ib-xs ib-muted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                Skill development overview
+              </div>
+            </div>
+          </div>
+
+          <div class="donut-wrap">
+            <div class="donut-container">
+              <svg class="donut-svg" width="130" height="130" viewBox="0 0 130 130">
+                <defs>
+                  <linearGradient id="dg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00c896"/><stop offset="100%" stop-color="#4f8ef7"/></linearGradient>
+                  <linearGradient id="dg2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#f97316"/></linearGradient>
+                </defs>
+                <circle class="donut-bg" cx="65" cy="65" r="52"/>
+                <circle class="donut-seg" cx="65" cy="65" r="52" stroke="url(#dg1)" stroke-dasharray="204 123" stroke-dashoffset="0"/>
+                <circle class="donut-seg" cx="65" cy="65" r="52" stroke="url(#dg2)" stroke-dasharray="55 272" stroke-dashoffset="-204"/>
+              </svg>
+              <div class="donut-inner"><span class="donut-pct" id="donut-pct">85%</span><span class="donut-lbl">Overall</span></div>
+            </div>
+          </div>
+
+          <div class="skill-grid" id="skill-grid-dynamic">
+            <div class="skill-cell">
+              <div class="skill-icon-row"><div class="ib-md ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
+              <div class="skill-val" style="color:var(--green)">81%</div>
+              <div class="skill-name">Problem Solving</div>
+            </div>
+            <div class="skill-cell">
+              <div class="skill-icon-row"><div class="ib-md ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
+              <div class="skill-val" style="color:var(--blue)">87%</div>
+              <div class="skill-name">Critical Thinking</div>
+            </div>
+            <div class="skill-cell">
+              <div class="skill-icon-row"><div class="ib-md ib-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
+              <div class="skill-val" style="color:var(--purple)">80%</div>
+              <div class="skill-name">Communication</div>
+            </div>
+            <div class="skill-cell">
+              <div class="skill-icon-row"><div class="ib-md ib-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
+              <div class="skill-val" style="color:var(--orange)">85%</div>
+              <div class="skill-name">Leadership</div>
+            </div>
+          </div>
+
+          <div class="growth-title">
+            <div class="ib-sm ib-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            Growth Areas
+          </div>
+          <div id="growth-areas-dynamic">
+            <div class="growth-item"><div class="growth-dot" style="background:var(--purple)"></div>Strengthen mathematical reasoning</div>
+            <div class="growth-item"><div class="growth-dot" style="background:var(--blue)"></div>Enhance collaborative skills</div>
+            <div class="growth-item"><div class="growth-dot" style="background:var(--green)"></div>Develop creative problem-solving</div>
+          </div>
+
+          <button class="btn btn-purple">
+            <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            View Detailed Competency Report
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ CARD 3: HOLISTIC PROGRESS ══ -->
+      <div class="card bt-blue">
+        <div class="card-body">
+          <div class="card-header">
+            <div class="ib-lg ib-blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="card-title-block">
+              <div class="card-title" style="color:var(--blue)">Holistic Progress</div>
+              <div class="card-sub">
+                <div class="ib-xs ib-muted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                Complete development view
+              </div>
+            </div>
+          </div>
+
+          <div class="sec-label">
+            <div class="ib-sm ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg></div>
+            <span class="sec-label-text">Learning Domains</span>
+          </div>
+
+          <div id="progress-dynamic">
+          <div class="prog-item">
+            <div class="prog-header">
+              <span class="prog-label">
+                <div class="ib-xs ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+                Cognitive Development
+              </span>
+              <span class="prog-pct" style="color:var(--blue)">85%</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill pf-blue" style="width:0%" data-w="85%"></div></div>
+          </div>
+          <div class="prog-item">
+            <div class="prog-header">
+              <span class="prog-label">
+                <div class="ib-xs ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+                Social-Emotional
+              </span>
+              <span class="prog-pct" style="color:var(--green)">87%</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill pf-green" style="width:0%" data-w="87%"></div></div>
+          </div>
+          <div class="prog-item">
+            <div class="prog-header">
+              <span class="prog-label">
+                <div class="ib-xs ib-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/></svg></div>
+                Physical Development
+              </span>
+              <span class="prog-pct" style="color:var(--purple)">85%</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill pf-purple" style="width:0%" data-w="85%"></div></div>
+          </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sec-label">
+            <div class="ib-sm ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+            <span class="sec-label-text">Monthly Progress</span>
+          </div>
+          <div class="monthly-row" id="monthly-grades-dynamic">
+            <div class="monthly-cell">
+              <div class="monthly-icon-row"><div class="ib-md ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div></div>
+              <div class="monthly-val" style="color:var(--green)">+7%</div>
+              <div class="monthly-lbl">This Month</div>
+            </div>
+            <div class="monthly-cell">
+              <div class="monthly-icon-row"><div class="ib-md ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+              <div class="monthly-val" style="color:var(--blue)">22</div>
+              <div class="monthly-lbl">Goals Met</div>
+            </div>
+            <div class="monthly-cell">
+              <div class="monthly-icon-row"><div class="ib-md ib-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div></div>
+              <div class="monthly-val" style="color:var(--orange)">1</div>
+              <div class="monthly-lbl">Awards</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sec-label">
+            <div class="ib-sm ib-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <span class="sec-label-text">Teacher Feedback</span>
+          </div>
+          <div class="feedback-box">
+            <div class="feedback-hdr">
+              <div class="ib-sm ib-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+              <span class="feedback-hdr-txt">Teacher's Note</span>
+            </div>
+            <div class="feedback-text">"Priya shows excellent analytical skills and consistently demonstrates leadership in group activities. Her curiosity and dedication to learning are commendable."</div>
+            <div class="feedback-author">
+              <div class="ib-xs ib-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              Ms. Johnson, Class Teacher
+            </div>
+          </div>
+
+          <button class="btn btn-blue">
+            <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            View Complete Progress Report
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ CARD 4: RECENT LEARNING ══ -->
+      <div class="card bt-blue">
+        <div class="card-body">
+          <div class="card-header">
+            <div class="ib-lg ib-blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+            </div>
+            <div class="card-title-block">
+              <div class="card-title" style="color:var(--blue)">Recent Learning</div>
+              <div class="card-sub">
+                <div class="ib-xs ib-muted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                Sofia Delgado's recent activities
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="ib-md ib-solid-green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="activity-info">
+              <div class="activity-name">Physical Development</div>
+              <div class="activity-status" style="color:var(--green)">
+                <div class="ib-xs ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                Completed
+              </div>
+              <div class="activity-date">
+                <div class="ib-xs ib-muted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                16/06/2026
+              </div>
+            </div>
+            <div class="activity-score-box">
+              <div class="activity-score-val" style="color:var(--green)">91%</div>
+              <div class="activity-score-lbl">
+                <div class="ib-xs ib-green" style="width:16px;height:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                Score
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-item">
+            <div class="ib-md ib-solid-blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="activity-info">
+              <div class="activity-name">Cognitive Development</div>
+              <div class="activity-status" style="color:var(--blue)">
+                <div class="ib-xs ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                In Progress
+              </div>
+              <div class="activity-date">
+                <div class="ib-xs ib-muted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                14/06/2026
+              </div>
+            </div>
+            <div class="activity-score-box">
+              <div class="activity-score-val" style="color:var(--blue)">78%</div>
+              <div class="activity-score-lbl">
+                <div class="ib-xs ib-blue" style="width:16px;height:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                Score
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-blue" style="margin-top:4px">
+            <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+            View Detailed Learning Report
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ CARD 5: LEARNING RESULTS ══ -->
+      <div class="card bt-green">
+        <div class="card-body">
+          <div class="card-header">
+            <div class="ib-lg ib-green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+            </div>
+            <div class="card-title-block">
+              <div class="card-title" style="color:var(--green)">Learning Results</div>
+              <div class="card-sub">
+                <div class="ib-xs ib-muted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+                Personalized achievements
+              </div>
+            </div>
+          </div>
+
+          <div class="sec-label">
+            <div class="ib-sm ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+            <span class="sec-label-text">Recent Assessments</span>
+          </div>
+
+          <div class="assess-item">
+            <div class="assess-hdr">
+              <span class="assess-name" style="color:var(--blue)">
+                <div class="ib-xs ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a5 5 0 00-10 0"/><line x1="12" y1="2" x2="12" y2="9"/></svg></div>
+                Physical Development
+              </span>
+              <span class="assess-score" style="color:var(--blue)">
+                <div class="ib-xs ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                95/100
+              </span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill pf-blue" style="width:0%" data-w="95%"></div></div>
+          </div>
+          <div class="assess-item">
+            <div class="assess-hdr">
+              <span class="assess-name" style="color:var(--green)">
+                <div class="ib-xs ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+                Cognitive Skills
+              </span>
+              <span class="assess-score" style="color:var(--green)">
+                <div class="ib-xs ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                88/100
+              </span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill pf-green" style="width:0%" data-w="88%"></div></div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sec-label">
+            <div class="ib-sm ib-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <span class="sec-label-text">Learning Strengths</span>
+          </div>
+
+          <div class="grade-grid">
+            <div class="grade-cell">
+              <div class="grade-icon-row"><div class="ib-md ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div></div>
+              <div class="grade-val" style="color:var(--green)">A+</div>
+              <div class="grade-subj">English</div>
+            </div>
+            <div class="grade-cell">
+              <div class="grade-icon-row"><div class="ib-md ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div></div>
+              <div class="grade-val" style="color:var(--blue)">A</div>
+              <div class="grade-subj">Mathematics</div>
+            </div>
+            <div class="grade-cell">
+              <div class="grade-icon-row"><div class="ib-md ib-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V1.99"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 11-4 0"/></svg></div></div>
+              <div class="grade-val" style="color:var(--orange)">A–</div>
+              <div class="grade-subj">Science</div>
+            </div>
+            <div class="grade-cell">
+              <div class="grade-icon-row"><div class="ib-md ib-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div></div>
+              <div class="grade-val" style="color:var(--purple)">B+</div>
+              <div class="grade-subj">History</div>
+            </div>
+          </div>
+
+          <button class="btn btn-green">
+            <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            View Complete Results
+          </button>
+        </div>
+      </div>
+
+      <!-- ══ CARD 6: PARTNERSHIP TRACKER ══ -->
+      <div class="card bt-pink">
+        <div class="card-body">
+          <div class="card-header">
+            <div class="ib-lg ib-pink">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+            <div class="card-title-block">
+              <div class="card-title" style="color:var(--purple)">Partnership Tracker</div>
+              <div class="card-sub">
+                <div class="ib-xs ib-muted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                Your involvement & support
+              </div>
+            </div>
+          </div>
+
+          <div class="sec-label">
+            <div class="ib-sm ib-pink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <span class="sec-label-text">This Month's Activities</span>
+          </div>
+
+          <div class="partner-row">
+            <div class="ib-md ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+            <span class="partner-label">Parent-Teacher Meetings</span>
+            <div class="badge bdg-green">
+              <div class="ib-xs ib-green" style="width:16px;height:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              2/2 Attended
+            </div>
+          </div>
+          <div class="partner-row">
+            <div class="ib-md ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+            <span class="partner-label">Homework Support Sessions</span>
+            <div class="badge bdg-blue">
+              <div class="ib-xs ib-blue" style="width:16px;height:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+              15/20 Days
+            </div>
+          </div>
+          <div class="partner-row">
+            <div class="ib-md ib-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <span class="partner-label">School Events Participation</span>
+            <div class="badge bdg-purple">
+              <div class="ib-xs ib-purple" style="width:16px;height:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              3/3 Events
+            </div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="sec-label">
+            <div class="ib-sm ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <span class="sec-label-text">Upcoming Opportunities</span>
+          </div>
+
+          <div class="upcoming-item">
+            <div class="ib-md ib-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V1.99"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 11-4 0"/></svg></div>
+            <div class="upcoming-text"><strong>Science Fair</strong><span>Dec 25</span></div>
+          </div>
+          <div class="upcoming-item">
+            <div class="ib-md ib-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+            <div class="upcoming-text"><strong>Parent Workshop</strong><span>Jan 5</span></div>
+          </div>
+          <div class="upcoming-item">
+            <div class="ib-md ib-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+            <div class="upcoming-text"><strong>Career Guidance Session</strong><span>Jan 12</span></div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="ps-row">
+            <div class="ib-sm ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <span class="ps-label">Partnership Score</span>
+            <div class="ps-val">
+              <div class="ib-xs ib-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div>
+              Excellent &nbsp;92%
+            </div>
+          </div>
+          <div class="prog-bar" style="height:10px">
+            <div class="prog-fill pf-green" style="width:0%" data-w="92%"></div>
+          </div>
+
+          <button class="btn btn-purple" style="margin-top:14px">
+            <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+            View Partnership Dashboard
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div> <!-- Close view-home -->
+
+  <!-- ══════════════ PARENT DASHBOARD VIEW ══════════════ -->
+  <div id="view-dashboard" class="main-view" style="display: none; flex: 1; overflow-y: auto; background: #f8fafc;">
+    <div class="pd-container">
+      
+      <!-- Top profile indicator -->
+      <div class="pd-header">
+        <div class="pd-avatar" title="Parent Account">PA</div>
+      </div>
+      
+      <!-- Center Title -->
+      <div class="pd-title-section">
+        <h2 class="pd-title">Parent Dashboard</h2>
+        <p class="pd-subtitle">Monitor your children's academic progress and activities</p>
+      </div>
+      
+      <!-- Search Input -->
+      <div class="pd-search-box">
+        <svg class="pd-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="pd-search-input" placeholder="Search children by name or school..." />
+      </div>
+      
+      <!-- My Children Label -->
+      <h3 class="pd-section-title">My Children</h3>
+      
+      <!-- Children Cards Grid -->
+      <div class="pd-grid" id="children-grid">
+        
+        <!-- Child Card 1: Sofia Delgado -->
+        <div class="pd-card">
+          <div class="pd-card-header">
+            <img class="pd-card-avatar" src="flower.png" alt="Sofia Delgado" />
+            <div class="pd-card-info">
+              <h3>Sofia Delgado</h3>
+              <div class="pd-card-email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>aaryamishra325+sofia@gmail.com</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="pd-card-details">
+            <div class="pd-detail-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span>AM International</span>
+            </div>
+            <div class="pd-detail-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>Grade: BV1</span>
+            </div>
+          </div>
+          
+          <a href="#" class="pd-card-action" onclick="showSofiaView(event)">
+            <span>View detailed information</span>
+            <svg style="width: 15px; height: 15px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        
+        <!-- Child Card 2: Kiara Malhotra -->
+        <div class="pd-card">
+          <div class="pd-card-header">
+            <div class="pd-card-avatar-initials">KM</div>
+            <div class="pd-card-info">
+              <h3>Kiara Malhotra</h3>
+              <div class="pd-card-email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>aaryamishra325+kiaramalhotra@gmail.com</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="pd-card-details">
+            <div class="pd-detail-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>Grade: BV3</span>
+            </div>
+          </div>
+          
+          <a href="#" class="pd-card-action" onclick="alert('Kiara\'s detailed profile is coming soon!')">
+            <span>View detailed information</span>
+            <svg style="width: 15px; height: 15px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+
+<script>
+  const API = 'http://localhost:3001/api';
+
+  /* ─── Sidebar & Clock ─── */
+  function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+
+  function tick() {
+    const n = new Date(), ap = n.getHours()>=12?'PM':'AM';
+    let h = n.getHours()%12||12, m = n.getMinutes(), s = n.getSeconds();
+    const p = v => String(v).padStart(2,'0');
+    document.getElementById('clockTime').textContent = `${p(h)}:${p(m)}:${p(s)} ${ap}`;
+    const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('clockDate').textContent = `${mo[n.getMonth()]} ${n.getDate()}, ${n.getFullYear()}`;
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ─── View Switcher ─── */
+  function switchView(viewId) {
+    document.querySelectorAll('.main-view').forEach(v => v.style.display = 'none');
+    const target = document.getElementById(viewId);
+    if (target) {
+      target.style.display = viewId === 'view-home' ? 'flex' : 'block';
+      if (viewId === 'view-home') {
+        target.style.flexDirection = 'column';
+        target.style.flex = '1';
+        target.style.overflow = 'hidden';
+      }
+    }
+  }
+
+  document.querySelectorAll('.nav-item[data-view]').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      const view = item.getAttribute('data-view');
+      if (view === 'home') switchView('view-home');
+      else if (view === 'dashboard') switchView('view-dashboard');
+    });
+  });
+
+  /* ─── Color map ─── */
+  const COLOR = {
+    green:  'var(--green)',  blue: 'var(--blue)',
+    purple: 'var(--purple)', orange: 'var(--orange)',
+    pink:   'var(--pink)',   red:  'var(--red)'
+  };
+  const PF = { green:'pf-green', blue:'pf-blue', purple:'pf-purple', orange:'pf-orange', pink:'pf-pink' };
+  const IB = { green:'ib-green', blue:'ib-blue', purple:'ib-purple', orange:'ib-orange', pink:'ib-pink', red:'ib-red' };
+
+  /* ─── Build Attendance Calendar from DB data ─── */
+  function buildCal(records) {
+    const grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+    // June 2026 starts on Monday = index 1 (Sun=0)
+    const firstDay = new Date(2026, 5, 1).getDay(); // 0=Sun
+    for (let i = 0; i < firstDay; i++) {
+      const e = document.createElement('div'); e.className = 'cal-cell empty'; grid.appendChild(e);
+    }
+    const dayMap = {};
+    (records || []).forEach(r => {
+      const d = new Date(r.date);
+      dayMap[d.getDate()] = r.status;
+    });
+    for (let d = 1; d <= 30; d++) {
+      const e = document.createElement('div'); e.className = 'cal-cell'; e.textContent = d;
+      const s = dayMap[d];
+      if (s === 'today')   e.classList.add('today');
+      else if (s === 'absent')  e.classList.add('absent');
+      else if (s === 'present') e.classList.add('present');
+      grid.appendChild(e);
+    }
+  }
+
+  /* ─── Render Attendance Stats ─── */
+  function renderAttendanceStats(student) {
+    const el = id => document.getElementById(id);
+    if (el('att-rate'))    el('att-rate').textContent    = student.attendanceRate + '%';
+    if (el('att-present')) el('att-present').textContent = student.presentDays;
+    if (el('att-missed'))  el('att-missed').textContent  = student.missedDays;
+    buildCal(student.attendanceRecords);
+  }
+
+  /* ─── Render Competencies ─── */
+  function renderCompetencies(student) {
+    // Donut centre
+    const dp = document.getElementById('donut-pct');
+    if (dp) dp.textContent = student.overallCompetency + '%';
+
+    // Skill cells
+    const sg = document.getElementById('skill-grid-dynamic');
+    if (sg) {
+      sg.innerHTML = student.competencies.map(c => `
+        <div class="skill-cell">
+          <div class="skill-icon-row"><div class="ib-md ${IB[c.color]||'ib-green'}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div></div>
+          <div class="skill-val" style="color:${COLOR[c.color]||COLOR.green}">${c.percentage}%</div>
+          <div class="skill-name">${c.name}</div>
+        </div>`).join('');
+    }
+
+    // Growth areas
+    const ga = document.getElementById('growth-areas-dynamic');
+    if (ga) {
+      const colors = ['purple','blue','green'];
+      ga.innerHTML = student.growthAreas.map((g, i) =>
+        `<div class="growth-item"><div class="growth-dot" style="background:var(--${colors[i%3]})"></div>${g}</div>`
+      ).join('');
+    }
+  }
+
+  /* ─── Render Progress Bars ─── */
+  function renderProgress(student) {
+    const pg = document.getElementById('progress-dynamic');
+    if (!pg) return;
+    pg.innerHTML = student.progressBars.map(p => `
+      <div class="prog-item">
+        <div class="prog-header">
+          <div class="prog-label">
+            <div class="ib-xs ${IB[p.color]||'ib-blue'}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>${p.subject}
+          </div>
+          <div class="prog-pct" style="color:${COLOR[p.color]||COLOR.blue}">${p.percentage}%</div>
+        </div>
+        <div class="prog-bar"><div class="prog-fill ${PF[p.color]||'pf-blue'}" style="width:0%" data-w="${p.percentage}%"></div></div>
+      </div>`).join('');
+    // Animate bars
+    setTimeout(() => {
+      document.querySelectorAll('.prog-fill[data-w]').forEach(b => b.style.width = b.dataset.w);
+    }, 300);
+  }
+
+  /* ─── Render Monthly Grades ─── */
+  function renderGrades(student) {
+    const mg = document.getElementById('monthly-grades-dynamic');
+    if (!mg) return;
+    mg.innerHTML = student.monthlyGrades.map(g => `
+      <div class="monthly-cell">
+        <div class="monthly-icon-row"><div class="ib-md ${IB[g.color]||'ib-green'}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>
+        </div></div>
+        <div class="monthly-val" style="color:${COLOR[g.color]||COLOR.green}">${g.grade}</div>
+        <div class="monthly-lbl">${g.month}</div>
+      </div>`).join('');
+  }
+
+  /* ─── Render Header (learner name) ─── */
+  function renderHeader(student, parent) {
+    const h1 = document.querySelector('.h-text h1');
+    if (h1 && parent) h1.textContent = `Welcome, ${parent.name}!`;
+    const sub = document.querySelector('.h-text p');
+    if (sub) {
+      sub.innerHTML = `<span class="live-dot"></span>${student.name}'s Learning Journey Dashboard`;
+    }
+    // Selector
+    const sel = document.querySelector('.h-selector select');
+    if (sel) {
+      sel.innerHTML = `<option>${student.name} – Grade ${student.grade}</option>`;
+    }
+    // Avatar
+    const av = document.querySelector('.sb-avatar');
+    if (av && parent) av.textContent = parent.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const userStrong = document.querySelector('.sb-user-text strong');
+    if (userStrong && parent) userStrong.textContent = parent.name;
+    const userSpan = document.querySelector('.sb-user-text span');
+    if (userSpan) userSpan.textContent = `Grade ${student.grade}`;
+  }
+
+  /* ─── Render Parent Dashboard Children Cards ─── */
+  function renderParentDashboard(parents) {
+    const grid = document.getElementById('children-grid');
+    if (!grid || !parents.length) return;
+    const parent = parents[0];
+    const children = parent.children || [];
+
+    // Update parent avatar
+    const pdAvatar = document.querySelector('.pd-avatar');
+    if (pdAvatar) pdAvatar.textContent = parent.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+
+    grid.innerHTML = children.map((child, idx) => {
+      const initials = child.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      const avatarHtml = child.avatarImg
+        ? `<img class="pd-card-avatar" src="${child.avatarImg}" alt="${child.name}" onerror="this.outerHTML='<div class=\\'pd-card-avatar-initials\\'>${initials}</div>'" />`
+        : `<div class="pd-card-avatar-initials">${initials}</div>`;
+
+      return `
+        <div class="pd-card">
+          <div class="pd-card-header">
+            ${avatarHtml}
+            <div class="pd-card-info">
+              <h3>${child.name}</h3>
+              <div class="pd-card-email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>${child.email}</span>
+              </div>
+            </div>
+          </div>
+          <div class="pd-card-details">
+            <div class="pd-detail-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span>${child.school}</span>
+            </div>
+            <div class="pd-detail-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>Grade: ${child.grade}</span>
+            </div>
+            <div class="pd-detail-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Attendance: <strong style="color:var(--green)">${child.attendanceRate}%</strong></span>
+            </div>
+          </div>
+          <a href="#" class="pd-card-action" onclick="loadStudentView('${child._id}', event)">
+            <span>View detailed information</span>
+            <svg style="width:15px;height:15px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>`;
+    }).join('');
+
+    // Search filter
+    const searchInput = document.querySelector('.pd-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', e => {
+        const q = e.target.value.toLowerCase();
+        document.querySelectorAll('.pd-card').forEach(card => {
+          const name = card.querySelector('h3').textContent.toLowerCase();
+          card.style.display = name.includes(q) ? '' : 'none';
+        });
+      });
+    }
+  }
+
+  /* ─── Load a specific student into the home view ─── */
+  async function loadStudentView(studentId, e) {
+    if (e) e.preventDefault();
+    try {
+      const res = await fetch(`${API}/students/${studentId}`);
+      const json = await res.json();
+      if (!json.success) throw new Error(json.error);
+      const student = json.data;
+
+      renderAttendanceStats(student);
+      renderCompetencies(student);
+      renderProgress(student);
+      renderGrades(student);
+
+      // Update card titles
+      document.querySelectorAll('[data-student-name]').forEach(el => {
+        el.textContent = el.getAttribute('data-student-name').replace('{{name}}', student.name);
+      });
+
+      // Switch to home view and activate Home nav
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      const homeNav = document.querySelector('.nav-item[data-view="home"]');
+      if (homeNav) homeNav.classList.add('active');
+      switchView('view-home');
+    } catch(err) {
+      console.error('Failed to load student:', err);
+    }
+  }
+
+  /* ─── Main Init: fetch everything from MongoDB ─── */
+  async function init() {
+    try {
+      // Fetch students and parents in parallel
+      const [studentsRes, parentsRes] = await Promise.all([
+        fetch(`${API}/students`),
+        fetch(`${API}/parents`)
+      ]);
+      const studentsJson = await studentsRes.json();
+      const parentsJson  = await parentsRes.json();
+
+      if (!studentsJson.success || !parentsJson.success) throw new Error('API error');
+
+      const students = studentsJson.data;
+      const parents  = parentsJson.data;
+
+      if (students.length === 0) {
+        console.warn('No students found in database.');
+        return;
+      }
+
+      // Load first student into main dashboard
+      const student = students[0];
+      const parent  = parents.length ? parents[0] : null;
+
+      renderHeader(student, parent);
+      renderAttendanceStats(student);
+      renderCompetencies(student);
+      renderProgress(student);
+      renderGrades(student);
+      renderParentDashboard(parents);
+
+      // Populate student selector
+      const sel = document.querySelector('.h-selector select');
+      if (sel) {
+        sel.innerHTML = students.map(s =>
+          `<option value="${s._id}">${s.name} – Grade ${s.grade}</option>`
+        ).join('');
+        sel.addEventListener('change', () => loadStudentView(sel.value, null));
+      }
+
+      console.log('✅ Dashboard loaded from MongoDB');
+    } catch (err) {
+      console.warn('⚠️ Could not reach backend API, using static fallback:', err.message);
+      // Static fallback for calendar and progress bars
+      (function buildCal() {
+        const grid = document.getElementById('calGrid');
+        if (!grid) return;
+        const present=[2,3,4,5,6,10,11,12,13,16,17,18,19], absent=[9], today=20;
+        for(let i=0;i<1;i++){const e=document.createElement('div');e.className='cal-cell empty';grid.appendChild(e);}
+        for(let d=1;d<=30;d++){
+          const e=document.createElement('div');e.className='cal-cell';e.textContent=d;
+          if(d===today)e.classList.add('today');
+          else if(absent.includes(d))e.classList.add('absent');
+          else if(present.includes(d))e.classList.add('present');
+          grid.appendChild(e);
+        }
+      })();
+      setTimeout(()=>{ document.querySelectorAll('.prog-fill[data-w]').forEach(b=>{ b.style.width=b.dataset.w; }); }, 400);
+    }
+  }
+
+  // Boot
+  init();
+</script>
+</body>
+</html>
