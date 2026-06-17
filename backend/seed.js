@@ -70,6 +70,16 @@ async function seed() {
       ],
 
       partnershipScore: 92,
+      location: 'Location not specified',
+      enrolledClasses: [
+        { subject: 'Physical Development', grade: 'Grade BV1', teacher: 'Leena Bisht' }
+      ],
+      teachers: [
+        { name: 'Leena Bisht', email: 'aaryamishra325+leena@gmail.com', subject: 'Physical Development' }
+      ],
+      activities: [
+        { name: 'Physical Development', category: 'Physical Development', status: 'pending', date: '16/06/2026' }
+      ],
     });
     console.log('✅ Created Sofia Delgado');
 
@@ -129,6 +139,16 @@ async function seed() {
       ],
 
       partnershipScore: 85,
+      location: 'Location not specified',
+      enrolledClasses: [
+        { subject: 'Physical Development', grade: 'Grade BV3', teacher: 'Leena Bisht' }
+      ],
+      teachers: [
+        { name: 'Leena Bisht', email: 'aaryamishra325+leena@gmail.com', subject: 'Physical Development' }
+      ],
+      activities: [
+        { name: 'Physical Development', category: 'Physical Development', status: 'pending', date: '16/06/2026' }
+      ],
     });
     console.log('✅ Created Kiara Malhotra');
 

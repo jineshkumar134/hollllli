@@ -11,22 +11,24 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --sidebar-bg: #0d0f1a;
+      --sidebar-bg: #0c152b;
       --sidebar-w: 250px;
       --sidebar-c: 70px;
-      --green:  #00c896;  --green-bg:  rgba(0,200,150,0.12);  --green-bd:  rgba(0,200,150,0.25);
-      --blue:   #4f8ef7;  --blue-bg:   rgba(79,142,247,0.12); --blue-bd:   rgba(79,142,247,0.25);
-      --purple: #a855f7;  --purple-bg: rgba(168,85,247,0.12); --purple-bd: rgba(168,85,247,0.25);
-      --orange: #f97316;  --orange-bg: rgba(249,115,22,0.12); --orange-bd: rgba(249,115,22,0.25);
-      --yellow: #f59e0b;  --yellow-bg: rgba(245,158,11,0.12); --yellow-bd: rgba(245,158,11,0.25);
-      --pink:   #ec4899;  --pink-bg:   rgba(236,72,153,0.12); --pink-bd:   rgba(236,72,153,0.25);
-      --red:    #ef4444;  --red-bg:    rgba(239,68,68,0.12);  --red-bd:    rgba(239,68,68,0.25);
-      --muted-bg: #f1f5f9; --muted-bd: #e2e8f0;
-      --card-bg: #fff; --body-bg: #f0f4ff;
-      --dark: #0f172a; --muted: #64748b; --light: #94a3b8;
+      --green:  #10b981;  --green-bg:  rgba(16,185,129,0.08);   --green-bd:  rgba(16,185,129,0.2);
+      --blue:   #1e81c4;  --blue-bg:   rgba(30,129,196,0.08);  --blue-bd:   rgba(30,129,196,0.2);
+      --purple: #7c3aed;  --purple-bg: rgba(124,58,237,0.08);  --purple-bd: rgba(124,58,237,0.2);
+      --orange: #f57f20;  --orange-bg: rgba(245,127,32,0.08);  --orange-bd: rgba(245,127,32,0.2);
+      --yellow: #f59e0b;  --yellow-bg: rgba(245,158,11,0.08);  --yellow-bd: rgba(245,158,11,0.2);
+      --pink:   #ec4899;  --pink-bg:   rgba(236,72,153,0.08);  --pink-bd:   rgba(236,72,153,0.2);
+      --red:    #ef4444;  --red-bg:    rgba(239,68,68,0.08);   --red-bd:    rgba(239,68,68,0.2);
+      
+      --muted-bg: #f8fafc; --muted-bd: #e2e8f0;
+      --card-bg: #ffffff; --body-bg: #f0f4ff;
+      --dark: #0f172a; --muted: #475569; --light: #94a3b8;
+      
       --radius: 18px;
-      --shadow: 0 4px 24px rgba(0,0,0,0.07);
-      --shadow-lg: 0 10px 40px rgba(0,0,0,0.13);
+      --shadow: 0 4px 20px rgba(30,129,196,0.04);
+      --shadow-lg: 0 10px 30px rgba(30,129,196,0.08);
       --ease: all 0.3s cubic-bezier(0.4,0,0.2,1);
     }
 
@@ -87,56 +89,48 @@
       width: var(--sidebar-w); background: var(--sidebar-bg);
       display: flex; flex-direction: column; flex-shrink: 0;
       overflow: hidden; transition: width 0.35s ease; z-index: 200;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
     }
     .sidebar.collapsed { width: var(--sidebar-c); }
 
     /* Logo */
     .sb-logo {
-      padding: 20px 16px 14px; display: flex; align-items: center; gap: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 24px 16px 20px; display: flex; align-items: center; justify-content: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       transition: padding 0.35s ease;
     }
     .sb-logo img {
+      height: 48px; width: auto; object-fit: contain;
       transition: margin-left 0.35s ease, width 0.35s ease, height 0.35s ease;
     }
     .sidebar.collapsed .sb-logo {
-      padding: 14px 0 !important;
+      padding: 18px 0 !important;
       justify-content: center !important;
     }
     .sidebar.collapsed .sb-logo img {
-      margin-left: 0 !important;
-      width: 44px !important;
+      width: 38px !important;
       height: auto !important;
     }
-    .logo-icon {
-      width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--green), var(--blue));
-      border: 1.5px solid rgba(255,255,255,0.2);
-      display: grid; place-items: center;
-    }
-    .logo-icon svg { width: 20px; height: 20px; color: #fff; }
-    .logo-text { overflow: hidden; white-space: nowrap; }
-    .logo-text b { display: block; font-size: 15px; font-weight: 800; color: #fff; line-height: 1.1; }
-    .logo-text small { font-size: 10px; color: var(--green); font-weight: 600; letter-spacing: 1px; }
 
     /* User card */
     .sb-user {
-      margin: 12px 10px; padding: 11px 12px;
-      background: rgba(255,255,255,0.06); border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.06);
-      display: flex; align-items: center; gap: 10px;
+      margin: 16px 12px; padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.06); border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex; align-items: center; gap: 12px;
       cursor: pointer; transition: var(--ease);
     }
-    .sb-user:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.1); }
+    .sb-user:hover { background: rgba(255, 255, 255, 0.1) !important; border-color: rgba(255, 255, 255, 0.2) !important; }
     .sb-avatar {
       width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--blue), var(--purple));
-      border: 2px solid rgba(255,255,255,0.2);
-      display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 14px;
+      background: linear-gradient(135deg, #10b981 0%, #1e81c4 100%);
+      display: grid; place-items: center; color: #ffffff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
     }
+    .sb-avatar svg { width: 22px; height: 22px; color: #ffffff; stroke-width: 2.5; }
     .sb-user-text { overflow: hidden; white-space: nowrap; }
-    .sb-user-text strong { display: block; font-size: 13px; font-weight: 600; color: #fff; }
-    .sb-user-text span { font-size: 11px; color: var(--green); }
+    .sb-user-text strong { display: block; font-size: 13.5px; font-weight: 700; color: #ffffff; }
+    .sb-user-text span { font-size: 11.5px; color: #94a3b8; font-weight: 500; margin-top: 2px; display: block; }
 
     /* Collapsed Sidebar overrides */
     .sidebar.collapsed .sb-user-text,
@@ -147,155 +141,164 @@
       display: none !important;
     }
     .sidebar.collapsed .sb-user {
-      padding: 11px 0 !important;
-      margin: 12px 6px !important;
+      padding: 10px 0 !important;
+      margin: 16px 8px !important;
+      justify-content: center !important;
+      background: transparent !important;
+      border-color: transparent !important;
+      box-shadow: none !important;
+    }
+    .sidebar.collapsed .nav-item {
+      padding: 10px 0 !important;
+      justify-content: center !important;
+      margin: 4px 8px !important;
+      border-left-width: 0 !important;
+    }
+    .sidebar.collapsed .collapse-btn {
+      padding: 12px 0 !important;
       justify-content: center !important;
       background: transparent !important;
       border-color: transparent !important;
     }
-    .sidebar.collapsed .nav-item {
-      padding: 8px 0 !important;
-      justify-content: center !important;
-      margin: 2px 6px !important;
-    }
-    .sidebar.collapsed .collapse-btn {
-      padding: 10px 0 !important;
-      justify-content: center !important;
-    }
 
     /* Nav */
-    .sb-nav { flex: 1; padding: 6px 0; overflow-y: auto; overflow-x: hidden; }
+    .sb-nav { flex: 1; padding: 10px 0; overflow-y: auto; overflow-x: hidden; }
     .sb-nav::-webkit-scrollbar { width: 3px; }
-    .sb-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+    .sb-nav::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 3px; }
     .nav-sec-lbl {
       font-size: 10px; letter-spacing: 1.2px; font-weight: 700; text-transform: uppercase;
-      color: rgba(255,255,255,0.2); padding: 12px 18px 4px; white-space: nowrap;
+      color: #94a3b8; padding: 12px 20px 6px; white-space: nowrap;
       transition: opacity 0.3s;
     }
     .sidebar.collapsed .nav-sec-lbl { opacity: 0; }
     .nav-item {
-      display: flex; align-items: center; gap: 11px;
-      padding: 8px 12px; margin: 2px 8px; border-radius: 11px;
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; margin: 4px 12px; border-radius: 12px;
       cursor: pointer; white-space: nowrap;
-      color: rgba(255,255,255,0.45); font-size: 13px; font-weight: 500;
+      color: #94a3b8; font-size: 13.5px; font-weight: 500;
       transition: var(--ease); position: relative;
+      border-left: 4px solid transparent;
     }
-    .nav-item:hover { color: #fff; background: rgba(255,255,255,0.07); }
-    .nav-item.active { color: #fff; background: rgba(255,255,255,0.1); }
-    .nav-item.active::before {
-      content: ''; position: absolute; left: -8px; top: 50%; transform: translateY(-50%);
-      width: 3px; height: 60%; background: var(--green); border-radius: 99px;
+    .nav-item:hover { color: #ffffff; background: rgba(255, 255, 255, 0.04); }
+    .nav-item.active {
+      color: var(--orange) !important;
+      background: rgba(245, 127, 32, 0.12) !important;
+      font-weight: 600;
+      border-left-color: var(--orange) !important;
     }
     /* Nav icon box */
     .nav-icon-box {
-      width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0;
+      width: 24px; height: 24px; flex-shrink: 0;
       display: grid; place-items: center;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: var(--ease);
+      background: none !important; border: none !important;
+      color: inherit;
     }
-    .nav-icon-box svg { width: 17px; height: 17px; }
-    .nav-item.active .nav-icon-box { background: rgba(0,200,150,0.18); border-color: rgba(0,200,150,0.3); color: var(--green); }
-    .nav-item:hover .nav-icon-box { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.15); }
+    .nav-icon-box svg { width: 20px; height: 20px; }
     .nav-text { display: flex; flex-direction: column; overflow: hidden; }
-    .nav-text span { font-size: 13px; font-weight: 500; }
-    .nav-text small { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 1px; }
+    .nav-text span { font-size: 13.5px; font-weight: 600; }
+    .nav-text small { display: none; }
     .nav-badge {
-      margin-left: auto; background: var(--green); color: #fff;
+      margin-left: auto; background: var(--orange); color: #fff;
       font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; flex-shrink: 0;
     }
 
     /* Footer */
-    .sb-footer { padding: 12px 8px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .sb-footer { padding: 16px 12px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
     .collapse-btn {
-      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
-      border-radius: 11px; cursor: pointer; transition: var(--ease);
-      color: rgba(255,255,255,0.35); white-space: nowrap;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 12px 16px; margin: 0;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px; cursor: pointer; transition: var(--ease);
+      color: #94a3b8; white-space: nowrap;
     }
-    .collapse-btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
+    .collapse-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.2); }
     .collapse-arrow {
-      width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+      width: 20px; height: 20px; flex-shrink: 0;
       display: grid; place-items: center;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
-      transition: var(--ease);
+      background: none !important; border: none !important;
+      color: inherit;
     }
-    .collapse-arrow svg { width: 14px; height: 14px; transition: transform 0.35s; }
+    .collapse-arrow svg { width: 16px; height: 16px; transition: transform 0.35s; }
     .sidebar.collapsed .collapse-arrow svg { transform: rotate(180deg); }
-    .collapse-btn span { font-size: 13px; font-weight: 500; }
+    .collapse-btn span { font-size: 13.5px; font-weight: 600; }
 
     /* ─── MAIN ─── */
     .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
 
     /* ─── HEADER ─── */
     .header {
-      background: linear-gradient(90deg, #199b4b 0%, #1e839b 50%, #2461e2 100%);
+      background: linear-gradient(135deg, var(--orange) 0%, #ea580c 100%);
       padding: 18px 28px; display: flex; align-items: center; gap: 14px;
       flex-shrink: 0; position: relative; overflow: hidden;
+      border-bottom: none;
+      box-shadow: 0 4px 20px rgba(245, 127, 32, 0.15);
     }
     .header::after {
       content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.07), transparent 60%);
+      background: radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.15), transparent 60%);
     }
     .h-check {
-      width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
-      background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.35);
-      backdrop-filter: blur(8px); display: grid; place-items: center;
+      width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35);
+      display: grid; place-items: center; color: #ffffff;
     }
-    .h-check svg { width: 22px; height: 22px; color: #fff; }
+    .h-check svg { width: 20px; height: 20px; color: currentColor; }
+    
     .h-text { flex: 1; }
-    .h-text h1 { font-size: 21px; font-weight: 800; color: #fff; }
-    .h-text p { font-size: 12.5px; color: rgba(255,255,255,0.7); margin-top: 3px; display: flex; align-items: center; gap: 6px; }
-    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; animation: pulse 2s infinite; }
+    .h-text h1 { font-size: 20px; font-weight: 800; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    .h-text p { font-size: 12.5px; color: rgba(255, 255, 255, 0.9); margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #ffffff; display: inline-block; animation: pulse 2s infinite; }
 
     .h-selector {
       display: flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 40px; padding: 8px 14px; flex-shrink: 0; cursor: pointer; transition: var(--ease);
     }
-    .h-selector:hover { background: rgba(255,255,255,0.25); }
+    .h-selector:hover { background: rgba(255, 255, 255, 0.3); border-color: rgba(255, 255, 255, 0.45); }
     .h-selector-icon {
       width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
-      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+      background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.1);
       display: grid; place-items: center;
     }
-    .h-selector-icon svg { width: 13px; height: 13px; color: #fff; }
+    .h-selector-icon svg { width: 13px; height: 13px; color: #ffffff; }
     .h-selector select {
-      background: none; border: none; color: #fff; font-family: 'Inter', sans-serif;
+      background: none; border: none; color: #ffffff; font-family: 'Inter', sans-serif;
       font-size: 12.5px; font-weight: 600; cursor: pointer; outline: none;
     }
-    .h-selector select option { color: var(--dark); background: #fff; }
+    .h-selector select option { color: var(--dark); background: #ffffff; }
     .h-selector-caret {
       width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0;
-      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.1);
       display: grid; place-items: center;
     }
-    .h-selector-caret svg { width: 11px; height: 11px; color: rgba(255,255,255,0.8); }
+    .h-selector-caret svg { width: 11px; height: 11px; color: #ffffff; }
 
     .h-clock {
-      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 14px; padding: 10px 16px; text-align: center;
-      flex-shrink: 0; backdrop-filter: blur(8px);
+      flex-shrink: 0; color: #ffffff;
     }
     .h-clock-time {
       display: flex; align-items: center; gap: 7px; justify-content: center;
-      font-size: 17px; font-weight: 700; color: #fff; letter-spacing: 1px;
+      font-size: 16px; font-weight: 700; color: #ffffff; letter-spacing: 0.5px;
     }
     .h-clock-icon {
       width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0;
-      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
-      display: grid; place-items: center;
+      background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.1);
+      display: grid; place-items: center; color: #ffffff;
     }
-    .h-clock-icon svg { width: 13px; height: 13px; color: #fff; }
+    .h-clock-icon svg { width: 13px; height: 13px; color: #ffffff; }
     .h-clock-date {
       display: flex; align-items: center; gap: 6px; justify-content: center;
-      font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 5px;
+      font-size: 11px; color: rgba(255, 255, 255, 0.85); margin-top: 5px;
     }
     .h-clock-date-icon {
       width: 18px; height: 18px; border-radius: 4px;
-      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
-      display: grid; place-items: center;
+      background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.1);
+      display: grid; place-items: center; color: rgba(255, 255, 255, 0.9);
     }
-    .h-clock-date-icon svg { width: 10px; height: 10px; color: rgba(255,255,255,0.7); }
+    .h-clock-date-icon svg { width: 10px; height: 10px; color: #ffffff; }
 
     /* ─── CONTENT ─── */
     .content { flex: 1; overflow-y: auto; padding: 22px; }
@@ -498,12 +501,14 @@
       border: 1px solid rgba(255,255,255,0.3);
     }
     .btn-icon svg { width: 13px; height: 13px; color: #fff; }
-    .btn-green  { background: linear-gradient(135deg,var(--green),#059669); color:#fff; box-shadow: 0 4px 14px rgba(0,200,150,.35); }
-    .btn-green:hover  { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(0,200,150,.5); }
-    .btn-blue   { background: linear-gradient(135deg,var(--blue),#2563eb);  color:#fff; box-shadow: 0 4px 14px rgba(79,142,247,.35); }
-    .btn-blue:hover   { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(79,142,247,.5); }
-    .btn-purple { background: linear-gradient(135deg,var(--purple),#7c3aed); color:#fff; box-shadow: 0 4px 14px rgba(168,85,247,.35); }
-    .btn-purple:hover { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(168,85,247,.5); }
+    .btn-green  { background: linear-gradient(135deg,var(--green),#059669); color:#fff; box-shadow: 0 4px 14px rgba(16,185,129,.2); }
+    .btn-green:hover  { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(16,185,129,.35); }
+    .btn-blue   { background: linear-gradient(135deg,var(--blue),#155b8c);  color:#fff; box-shadow: 0 4px 14px rgba(30,129,196,.2); }
+    .btn-blue:hover   { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(30,129,196,.35); }
+    .btn-orange { background: linear-gradient(135deg,var(--orange),#d86c18); color:#fff; box-shadow: 0 4px 14px rgba(245,127,32,.2); }
+    .btn-orange:hover { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(245,127,32,.35); }
+    .btn-purple { background: linear-gradient(135deg,var(--purple),#7c3aed); color:#fff; box-shadow: 0 4px 14px rgba(124,58,237,.2); }
+    .btn-purple:hover { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,.35); }
 
     /* ─── ANIMATIONS ─── */
     @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
@@ -512,9 +517,9 @@
     /* ─── RESPONSIVE ─── */
     .mobile-nav-toggle {
       display: none;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -526,7 +531,8 @@
       outline: none;
     }
     .mobile-nav-toggle:hover {
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.45);
     }
     .mobile-nav-toggle svg {
       width: 20px;
@@ -792,14 +798,14 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: #fdf2e9;
-      color: #ea580c;
+      background: var(--orange-bg);
+      color: var(--orange);
       font-weight: 700;
       display: grid;
       place-items: center;
       font-size: 14px;
-      border: 1px solid #fed7aa;
-      box-shadow: 0 2px 8px rgba(234,88,12,0.1);
+      border: 1px solid var(--orange-bd);
+      box-shadow: 0 2px 8px rgba(245,127,32,0.1);
     }
     .pd-title-section {
       text-align: center;
@@ -808,13 +814,13 @@
     .pd-title {
       font-size: 34px;
       font-weight: 800;
-      color: #d97706;
+      color: var(--orange);
       margin-bottom: 10px;
       letter-spacing: -0.5px;
     }
     .pd-subtitle {
       font-size: 15px;
-      color: #1e3a8a;
+      color: var(--blue);
       font-weight: 500;
     }
     .pd-search-box {
@@ -836,8 +842,8 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
     .pd-search-input:focus {
-      border-color: #f97316;
-      box-shadow: 0 4px 16px rgba(249,115,22,0.1);
+      border-color: var(--orange);
+      box-shadow: 0 4px 16px rgba(245,127,32,0.15);
     }
     .pd-search-icon {
       position: absolute;
@@ -852,7 +858,7 @@
       width: 100%;
       font-size: 18px;
       font-weight: 700;
-      color: #ea580c;
+      color: var(--orange);
       margin-bottom: 20px;
       text-align: left;
     }
@@ -870,18 +876,18 @@
     .pd-card {
       background: #fff;
       border-radius: 16px;
-      border: 1.5px solid #fed7aa;
+      border: 1.5px solid var(--orange-bd);
       padding: 24px;
       display: flex;
       flex-direction: column;
       position: relative;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 12px rgba(234,88,12,0.02);
+      box-shadow: 0 4px 12px rgba(245,127,32,0.02);
     }
     .pd-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(234,88,12,0.08);
-      border-color: #f97316;
+      box-shadow: 0 10px 25px rgba(245,127,32,0.08);
+      border-color: var(--orange);
     }
     .pd-card-header {
       display: flex;
@@ -894,24 +900,24 @@
       height: 55px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #fed7aa;
+      border: 2px solid var(--orange-bd);
     }
     .pd-card-avatar-initials {
       width: 55px;
       height: 55px;
       border-radius: 50%;
-      background: #eff6ff;
-      color: #2563eb;
+      background: var(--blue-bg);
+      color: var(--blue);
       font-weight: 700;
       font-size: 16px;
       display: grid;
       place-items: center;
-      border: 2px solid #bfdbfe;
+      border: 2px solid var(--blue-bd);
     }
     .pd-card-info h3 {
       font-size: 16px;
       font-weight: 700;
-      color: #ea580c;
+      color: var(--orange);
       margin-bottom: 4px;
     }
     .pd-card-email {
@@ -952,31 +958,208 @@
       justify-content: space-between;
       font-size: 13px;
       font-weight: 600;
-      color: #0284c7;
+      color: var(--blue);
       text-decoration: none;
       padding: 12px 16px;
-      background: #fdfaff;
+      background: #f8fafc;
       border-radius: 10px;
-      border: 1px solid #f0e6ff;
+      border: 1px solid #e2e8f0;
       transition: all 0.2s;
     }
     .pd-card-action:hover {
-      background: #f5f0ff;
-      color: #0369a1;
+      background: var(--blue-bg);
+      color: var(--blue);
     }
 
     /* Orange active theme override for the Dashboard nav item */
     .nav-item.orange-theme.active {
-      color: #f97316 !important;
-      background: rgba(249,115,22,0.08) !important;
+      color: var(--orange) !important;
+      background: rgba(245,127,32,0.08) !important;
     }
     .nav-item.orange-theme.active .nav-icon-box {
-      background: rgba(249,115,22,0.15) !important;
-      border-color: rgba(249,115,22,0.3) !important;
-      color: #f97316 !important;
+      background: rgba(245,127,32,0.15) !important;
+      border-color: rgba(245,127,32,0.3) !important;
+      color: var(--orange) !important;
     }
     .nav-item.orange-theme.active::before {
-      background: #f97316 !important;
+      background: var(--orange) !important;
+    }
+
+    .attendance-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Learner's Profile & Classes Custom CSS */
+    @media (max-width: 900px) {
+      .profile-layout {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+    }
+    @media (max-width: 768px) {
+      .attendance-layout {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    /* Light Theme Card & Stat overrides */
+    .att-stat, .monthly-cell, .skill-cell, .activity-item, .grade-cell {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+    }
+    .att-stat:hover, .monthly-cell:hover, .skill-cell:hover, .activity-item:hover, .grade-cell:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+    .cal-cell:not(.empty):not(.present):not(.absent):not(.today):hover {
+      background: #f1f5f9;
+    }
+
+    /* ─── Dedicated Attendance View Calendar Overrides ─── */
+    #attendance-calGrid.cal-grid {
+      gap: 10px;
+    }
+    #attendance-calGrid .cal-cell {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      transition: var(--ease);
+    }
+    #attendance-calGrid .cal-cell.empty {
+      background: transparent;
+      border-color: transparent;
+    }
+    #attendance-calGrid .cal-cell.present {
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+      font-weight: 700;
+    }
+    #attendance-calGrid .cal-cell.absent {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+      font-weight: 700;
+    }
+    #attendance-calGrid .cal-cell.today {
+      background: linear-gradient(135deg, var(--blue), #1d4ed8);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(30,129,196,0.3);
+      font-weight: 700;
+    }
+    #attendance-calGrid .cal-cell:not(.empty):not(.present):not(.absent):not(.today):hover {
+      background: #eef2ff;
+      border-color: #c7d2fe;
+    }
+    .divider {
+      background: #e2e8f0;
+    }
+    .card-header {
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .feedback-box {
+      background: rgba(245, 158, 11, 0.06);
+      border: 1px solid rgba(245, 158, 11, 0.15);
+      border-left: 4px solid var(--yellow);
+    }
+    .feedback-hdr-txt {
+      color: #b45309;
+    }
+    .feedback-text {
+      color: #78350f;
+    }
+    .feedback-author {
+      color: #b45309;
+    }
+    .pd-card {
+      background: #fff;
+      border: 1.5px solid rgba(249, 115, 22, 0.2);
+    }
+    .pd-search-input {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      color: #0f172a;
+    }
+    .pd-detail-item {
+      color: #475569;
+    }
+    .pd-card-action {
+      background: #fdfaff;
+      border: 1px solid #f0e6ff;
+      color: #2563eb;
+    }
+    .pd-card-action:hover {
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+    .pd-avatar {
+      background: rgba(249, 115, 22, 0.1);
+      color: var(--orange);
+      border: 1px solid rgba(249, 115, 22, 0.25);
+    }
+    .pd-card-avatar-initials {
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--blue);
+      border: 2px solid rgba(37, 99, 235, 0.2);
+    }
+
+    /* ─── Mobile Responsive Grid Helpers ─── */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .comp-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+    }
+    .parent-profile-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .parent-profile-layout {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+        justify-items: center;
+      }
+    }
+    .parent-preferences-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    @media (max-width: 768px) {
+      .parent-preferences-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+      }
+    }
+    .insights-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 900px) {
+      .insights-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
     }
   </style>
 </head>
@@ -987,12 +1170,14 @@
 <!-- ══════════════ SIDEBAR ══════════════ -->
 <aside class="sidebar" id="sidebar">
 
-  <div class="sb-logo" style="padding: 14px 16px; display: flex; align-items: center;">
-    <img src="holistic_logo.png" alt="Holistic Evaluator" style="height: 42px; width: auto; object-fit: contain; margin-left: 48px;" />
+  <div class="sb-logo">
+    <img src="holistic_logo.png" alt="Holistic Evaluator" />
   </div>
 
   <div class="sb-user">
-    <div class="sb-avatar">SD</div>
+    <div class="sb-avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+    </div>
     <div class="sb-user-text">
       <strong>Sofia Delgado</strong>
       <span>Grade BV1</span>
@@ -1004,13 +1189,61 @@
       <div class="nav-icon-box">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </div>
-      <div class="nav-text"><span>Home</span><small>Overview</small></div>
+      <div class="nav-text"><span>Home</span></div>
     </div>
-    <div class="nav-item orange-theme" data-view="dashboard">
+    <div class="nav-item" data-view="dashboard">
       <div class="nav-icon-box">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       </div>
-      <div class="nav-text"><span>Dashboard</span><small>Parent View</small></div>
+      <div class="nav-text"><span>Dashboard</span></div>
+    </div>
+    <div class="nav-item" data-view="profile">
+      <div class="nav-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="nav-text"><span>Learner's Profile</span></div>
+    </div>
+    <div class="nav-item" data-view="classes">
+      <div class="nav-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+      </div>
+      <div class="nav-text"><span>Learner's Classes</span></div>
+    </div>
+    <div class="nav-item" data-view="teachers">
+      <div class="nav-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="nav-text"><span>Learner's Teachers</span></div>
+    </div>
+    <div class="nav-item" data-view="activities">
+      <div class="nav-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <div class="nav-text"><span>Learner's Activities</span></div>
+    </div>
+    <div class="nav-item" data-view="attendance">
+      <div class="nav-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="nav-text"><span>Learner's Attendance</span></div>
+    </div>
+    <div class="nav-item" data-view="competencies">
+      <div class="nav-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+      </div>
+      <div class="nav-text"><span>Learner's Competencies</span></div>
+    </div>
+    <div class="nav-item" data-view="parent">
+      <div class="nav-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="nav-text"><span>Parent's Profile</span></div>
+    </div>
+    <div class="nav-item" data-view="logout">
+      <div class="nav-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+      <div class="nav-text"><span>Logout</span></div>
     </div>
   </nav>
 
@@ -1070,7 +1303,7 @@
     <div class="grid">
 
       <!-- ══ CARD 1: ATTENDANCE ══ -->
-      <div class="card bt-green">
+      <div class="card bt-green" id="card-attendance">
         <div class="card-body">
           <div class="card-header">
             <div class="ib-lg ib-green">
@@ -1121,7 +1354,7 @@
             </div>
           </div>
 
-          <button class="btn btn-green">
+          <button class="btn btn-green" onclick="document.querySelector('.nav-item[data-view=\'attendance\']').click()">
             <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
             View Complete Attendance Report
           </button>
@@ -1129,7 +1362,7 @@
       </div>
 
       <!-- ══ CARD 2: COMPETENCIES ══ -->
-      <div class="card bt-purple">
+      <div class="card bt-purple" id="card-competencies">
         <div class="card-body">
           <div class="card-header">
             <div class="ib-lg ib-purple">
@@ -1149,7 +1382,7 @@
               <svg class="donut-svg" width="130" height="130" viewBox="0 0 130 130">
                 <defs>
                   <linearGradient id="dg1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00c896"/><stop offset="100%" stop-color="#4f8ef7"/></linearGradient>
-                  <linearGradient id="dg2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#f97316"/></linearGradient>
+                  <linearGradient id="dg2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#f57f20"/></linearGradient>
                 </defs>
                 <circle class="donut-bg" cx="65" cy="65" r="52"/>
                 <circle class="donut-seg" cx="65" cy="65" r="52" stroke="url(#dg1)" stroke-dasharray="204 123" stroke-dashoffset="0"/>
@@ -1545,12 +1778,12 @@
   </div> <!-- Close view-home -->
 
   <!-- ══════════════ PARENT DASHBOARD VIEW ══════════════ -->
-  <div id="view-dashboard" class="main-view" style="display: none; flex: 1; overflow-y: auto; background: #f8fafc;">
+  <div id="view-dashboard" class="main-view" style="display: none; flex: 1; overflow-y: auto;">
     <div class="pd-container">
       
       <!-- Top profile indicator -->
       <div class="pd-header" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-        <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar" style="background: rgba(234, 88, 12, 0.1); border-color: rgba(234, 88, 12, 0.2); color: #ea580c;">
+        <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar" style="background: var(--orange-bg); border-color: var(--orange-bd); color: var(--orange);">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
         <div class="pd-avatar" title="Parent Account">PA</div>
@@ -1629,7 +1862,691 @@
             <svg style="width: 15px; height: 15px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ LEARNER PROFILE VIEW ══════════════ -->
+  <div id="view-profile" class="main-view" style="display: none; flex-direction: column; flex: 1; overflow-y: auto;">
+    <!-- HEADER -->
+    <header class="header">
+      <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="h-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="h-text">
+        <h1 id="profile-header-title">Sofia Delgado's Profile</h1>
+        <p>View and manage profile information</p>
+      </div>
+      <div class="h-selector">
+        <div class="h-selector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <select class="profile-student-select"><option>Sofia Delgado – Grade BV1</option></select>
+        <div class="h-selector-caret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </header>
+    
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="profile-layout" style="display: grid; grid-template-columns: 320px 1fr; gap: 24px;">
         
+        <!-- Left Side: Profile Card -->
+        <div class="card" style="padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <div class="profile-avatar-container" style="position: relative; width: 140px; height: 140px; margin-bottom: 20px;">
+            <div class="profile-avatar-circle" id="profile-avatar-display" style="width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, #4f8ef7, #a855f7); color: #fff; display: grid; place-items: center; font-size: 36px; font-weight: 800; border: 4px solid #fff; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">
+              SD
+            </div>
+            <!-- Edit icon overlay -->
+            <div style="position: absolute; bottom: 0; right: 0; background: #2563eb; color: #fff; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; border: 3px solid #fff; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+              <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+          </div>
+          <h2 id="profile-student-name" style="font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">Sofia Delgado</h2>
+          <p id="profile-student-grade" style="font-size: 14px; font-weight: 600; color: #64748b; margin-bottom: 24px;">Grade BV1</p>
+          
+          <div style="width: 100%; background: #f8fafc; border-radius: 12px; padding: 16px; border: 1px solid #f1f5f9; text-align: left;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div class="ib-sm ib-blue" style="background: rgba(37,99,235,0.08); border-color: rgba(37,99,235,0.15); color: #2563eb;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <span style="font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">School Information</span>
+            </div>
+            <div id="profile-student-school" style="font-size: 14px; font-weight: 600; color: #1e293b;">AM International</div>
+          </div>
+        </div>
+        
+        <!-- Right Side: Details Card -->
+        <div class="card" style="padding: 30px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px;">
+            <h2 style="font-size: 20px; font-weight: 800; color: #0f172a;">Personal Information</h2>
+            <button class="btn btn-blue" style="width: auto; padding: 8px 16px; font-size: 13px; border-radius: 8px;">
+              <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Edit Profile
+            </button>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px;">
+            <!-- Contact Details -->
+            <div>
+              <h3 style="font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 16px;">Contact Details</h3>
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="background: #f8fafc; border: 1.5px solid #f1f5f9; border-radius: 10px; padding: 12px 16px;">
+                  <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">Email</div>
+                  <div id="profile-info-email" style="font-size: 13.5px; font-weight: 600; color: #334155; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">aaryamishra325+sofia@gmail.com</div>
+                </div>
+                <div style="background: #f8fafc; border: 1.5px solid #f1f5f9; border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                  <div class="ib-sm ib-green" style="background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.15); color: #10b981; width: 34px; height: 34px; border-radius: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 2px;">Location</div>
+                    <div id="profile-info-location" style="font-size: 13px; font-weight: 600; color: #334155;">Location not specified</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Academic Details -->
+            <div>
+              <h3 style="font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 16px;">Academic Details</h3>
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="background: #f8fafc; border: 1.5px solid #f1f5f9; border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                  <div class="ib-sm ib-purple" style="width: 34px; height: 34px; border-radius: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 2px;">School</div>
+                    <div id="profile-info-school" style="font-size: 13px; font-weight: 600; color: #334155;">AM International</div>
+                  </div>
+                </div>
+                <div style="background: #f8fafc; border: 1.5px solid #f1f5f9; border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                  <div class="ib-sm ib-orange" style="width: 34px; height: 34px; border-radius: 8px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  </div>
+                  <div>
+                    <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 2px;">Grade Level</div>
+                    <div id="profile-info-grade" style="font-size: 13px; font-weight: 600; color: #334155;">Grade BV1</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Additional Information -->
+          <h3 style="font-size: 14px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px;">Additional Information</h3>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+            <div style="background: #fdfeff; border: 1.5px solid #e0e7ff; border-radius: 12px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <div style="font-size: 20px; font-weight: 800; color: #2563eb; margin-bottom: 6px;">Active</div>
+              <div style="font-size: 11px; font-weight: 600; color: #64748b;">Account Status</div>
+            </div>
+            <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <div style="font-size: 20px; font-weight: 800; color: #16a34a; margin-bottom: 6px;">Verified</div>
+              <div style="font-size: 11px; font-weight: 600; color: #64748b;">Email Status</div>
+            </div>
+            <div style="background: #faf5ff; border: 1.5px solid #f3e8ff; border-radius: 12px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <div style="font-size: 20px; font-weight: 800; color: #7c3aed; margin-bottom: 6px;">Student</div>
+              <div style="font-size: 11px; font-weight: 600; color: #64748b;">Role</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ LEARNER CLASSES VIEW ══════════════ -->
+  <div id="view-classes" class="main-view" style="display: none; flex-direction: column; flex: 1; overflow-y: auto;">
+    <!-- HEADER -->
+    <header class="header">
+      <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="h-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+      </div>
+      <div class="h-text">
+        <h1 id="classes-header-title">Sofia Delgado's Classes</h1>
+        <p>View enrolled classes and subjects</p>
+      </div>
+      <div class="h-selector">
+        <div class="h-selector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <select class="classes-student-select"><option>Sofia Delgado – Grade BV1</option></select>
+        <div class="h-selector-caret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </header>
+    
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="classes-container" style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+        
+        <!-- Summary Card -->
+        <div class="card" style="padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; border-left: 5px solid #0d9488;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div id="classes-avatar-circle" style="width: 55px; height: 55px; border-radius: 50%; background: linear-gradient(135deg, #0d9488, #059669); color: #fff; display: grid; place-items: center; font-size: 18px; font-weight: 700; border: 2px solid #bfdbfe;">
+              S
+            </div>
+            <div>
+              <h2 id="classes-student-name" style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">Sofia Delgado</h2>
+              <p id="classes-student-details" style="font-size: 13.5px; font-weight: 600; color: #64748b;">Grade BV1 • AM International</p>
+            </div>
+          </div>
+          <div style="text-align: right; display: flex; align-items: center; gap: 16px;">
+            <div>
+              <div id="classes-count-val" style="font-size: 32px; font-weight: 800; color: #0d9488; line-height: 1;">1</div>
+              <div style="font-size: 11px; font-weight: 600; color: #64748b; margin-top: 4px;">Enrolled Classes</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Enrolled Classes Section -->
+        <div>
+          <h3 style="font-size: 16px; font-weight: 700; color: #0d9488; margin-bottom: 16px;">Enrolled Classes</h3>
+          
+          <div class="card" id="classes-list-container" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+            <!-- Dynamic Item -->
+            <div style="display: flex; align-items: center; justify-content: space-between; border: 1.5px solid var(--orange-bd); border-radius: 12px; padding: 20px; transition: all 0.2s; cursor: pointer; background: #fff;" onmouseover="this.style.borderColor='var(--orange)'; this.style.boxShadow='0 4px 12px rgba(245,127,32,0.08)'" onmouseout="this.style.borderColor='var(--orange-bd)'; this.style.boxShadow='none'">
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="ib-lg ib-purple" style="background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.15); color: #a855f7; width: 48px; height: 48px; border-radius: 10px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <div>
+                  <h4 style="font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Physical Development</h4>
+                  <div style="font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 6px;">Grade BV1</div>
+                  <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #64748b;">
+                    <svg style="width: 14px; height: 14px; color: #94a3b8;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Teacher: Leena Bisht
+                  </div>
+                </div>
+              </div>
+              <svg style="width: 18px; height: 18px; color: #94a3b8;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ TEACHERS VIEW ══════════════ -->
+  <div id="view-teachers" class="main-view" style="display: none; flex-direction: column; flex: 1; overflow-y: auto;">
+    <header class="header">
+      <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="h-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="h-text">
+        <h1 id="teachers-header-title">Sofia Delgado's Teachers</h1>
+        <p>View assigned teachers and contact information</p>
+      </div>
+      <div class="h-selector">
+        <div class="h-selector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <select class="teachers-student-select"><option>Sofia Delgado – Grade BV1</option></select>
+        <div class="h-selector-caret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </header>
+    <div class="content">
+      <div style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+        <div class="card" style="padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; border-left: 5px solid #3b82f6;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div id="teachers-avatar-circle" style="width: 55px; height: 55px; border-radius: 50%; background: linear-gradient(135deg, #1e40af, #3b82f6); color: #fff; display: grid; place-items: center; font-size: 18px; font-weight: 700; border: 2px solid rgba(56,189,248,0.4);">S</div>
+            <div>
+              <h2 id="teachers-student-name" style="font-size: 18px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">Sofia Delgado</h2>
+              <p id="teachers-student-details" style="font-size: 13.5px; font-weight: 600; color: var(--muted);">Grade BV1 • AM International</p>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div id="teachers-count-val" style="font-size: 32px; font-weight: 800; color: #3b82f6; line-height: 1;">1</div>
+            <div style="font-size: 11px; font-weight: 600; color: var(--muted); margin-top: 4px;">Assigned Teachers</div>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--blue); margin-bottom: 16px;">Teaching Staff</h3>
+          <div id="teachers-list-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ ACTIVITIES VIEW ══════════════ -->
+  <div id="view-activities" class="main-view" style="display: none; flex-direction: column; flex: 1; overflow-y: auto;">
+    <header class="header">
+      <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="h-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <div class="h-text">
+        <h1 id="activities-header-title">Sofia Delgado's Activities</h1>
+        <p>Track tasks, events and scheduled activities</p>
+      </div>
+      <div class="h-selector">
+        <div class="h-selector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <select class="activities-student-select"><option>Sofia Delgado – Grade BV1</option></select>
+        <div class="h-selector-caret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </header>
+    <div class="content">
+      <div style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+        <div class="card" style="padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; border-left: 5px solid #f59e0b; flex-wrap: wrap; gap: 16px;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div id="activities-avatar-circle" style="width: 55px; height: 55px; border-radius: 50%; background: linear-gradient(135deg, #b45309, #f59e0b); color: #fff; display: grid; place-items: center; font-size: 18px; font-weight: 700; border: 2px solid rgba(245,158,11,0.4);">S</div>
+            <div>
+              <h2 id="activities-student-name" style="font-size: 18px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">Sofia Delgado</h2>
+              <p id="activities-student-details" style="font-size: 13.5px; font-weight: 600; color: var(--muted);">Grade BV1 • AM International</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 24px; text-align: center;">
+            <div><div id="activities-total-val" style="font-size: 24px; font-weight: 800; color: #f59e0b; line-height: 1;">1</div><div style="font-size: 10px; font-weight: 600; color: var(--muted); margin-top: 4px;">Total</div></div>
+            <div><div id="activities-pending-val" style="font-size: 24px; font-weight: 800; color: var(--orange); line-height: 1;">1</div><div style="font-size: 10px; font-weight: 600; color: var(--muted); margin-top: 4px;">Pending</div></div>
+            <div><div id="activities-done-val" style="font-size: 24px; font-weight: 800; color: #10b981; line-height: 1;">0</div><div style="font-size: 10px; font-weight: 600; color: var(--muted); margin-top: 4px;">Completed</div></div>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--yellow); margin-bottom: 16px;">All Activities</h3>
+          <div id="activities-list-container" class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 14px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ LEARNER ATTENDANCE VIEW ══════════════ -->
+  <div id="view-attendance" class="main-view" style="display: none; flex-direction: column; flex: 1; overflow-y: auto;">
+    <header class="header">
+      <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="h-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="h-text">
+        <h1 id="attendance-header-title">Sofia Delgado's Attendance</h1>
+        <p>Track attendance patterns and statistics</p>
+      </div>
+      <div class="h-selector">
+        <div class="h-selector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <select class="attendance-student-select"><option>Sofia Delgado – Grade BV1</option></select>
+        <div class="h-selector-caret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="attendance-layout">
+        <!-- Left Column: Stat Cards -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <!-- Card 1: Attendance Rate -->
+          <div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <div class="ib-md ib-green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>
+              </div>
+              <div>
+                <h3 style="font-size: 15px; font-weight: 700; color: var(--dark);">Attendance Rate</h3>
+                <span style="font-size: 11.5px; color: var(--muted);">This month</span>
+              </div>
+            </div>
+            <div>
+              <div id="attendance-att-rate" style="font-size: 32px; font-weight: 800; color: var(--green); line-height: 1.1;">100%</div>
+              <div style="width: 100%; height: 6px; background: rgba(16, 185, 129, 0.1); border-radius: 99px; margin-top: 12px; overflow: hidden;">
+                <div id="attendance-rate-bar" style="width: 100%; height: 100%; background: var(--green); border-radius: 99px; transition: width 0.6s ease;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Present Days -->
+          <div class="card" style="padding: 20px; display: flex; align-items: center; gap: 16px;">
+            <div class="ib-md ib-blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div>
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--dark);">Present Days</h3>
+              <span style="font-size: 11.5px; color: var(--muted); display: block; margin-bottom: 4px;">This month</span>
+              <div id="attendance-att-present" style="font-size: 28px; font-weight: 800; color: var(--blue); line-height: 1;">5</div>
+            </div>
+          </div>
+
+          <!-- Card 3: Absent Days -->
+          <div class="card" style="padding: 20px; display: flex; align-items: center; gap: 16px;">
+            <div class="ib-md ib-red">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            </div>
+            <div>
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--dark);">Absent Days</h3>
+              <span style="font-size: 11.5px; color: var(--muted); display: block; margin-bottom: 4px;">This month</span>
+              <div id="attendance-att-missed" style="font-size: 28px; font-weight: 800; color: var(--red); line-height: 1;">0</div>
+            </div>
+          </div>
+
+          <!-- Card 4: Total Days -->
+          <div class="card" style="padding: 20px; display: flex; align-items: center; gap: 16px;">
+            <div class="ib-md ib-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div>
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--dark);">Total Days</h3>
+              <span style="font-size: 11.5px; color: var(--muted); display: block; margin-bottom: 4px;">This month</span>
+              <div id="attendance-att-total" style="font-size: 28px; font-weight: 800; color: var(--purple); line-height: 1;">5</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Calendar Card -->
+        <div class="card" style="padding: 30px; display: flex; flex-direction: column; gap: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 id="attendance-cal-month" style="font-size: 22px; font-weight: 800; color: var(--dark);">June 2026</h2>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-muted" style="padding: 8px 12px; border-radius: 8px; border: 1px solid var(--muted-bd); cursor: pointer;"><svg style="width: 14px; height: 14px; color: var(--muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+              <button class="btn btn-muted" style="padding: 8px 12px; border-radius: 8px; border: 1px solid var(--muted-bd); cursor: pointer;"><svg style="width: 14px; height: 14px; color: var(--muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+            </div>
+          </div>
+
+          <div class="cal-header" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 4px;">
+            <div class="cal-dh" style="text-align: center; font-size: 12px; font-weight: 700; color: var(--light); text-transform: uppercase;">Sun</div>
+            <div class="cal-dh" style="text-align: center; font-size: 12px; font-weight: 700; color: var(--light); text-transform: uppercase;">Mon</div>
+            <div class="cal-dh" style="text-align: center; font-size: 12px; font-weight: 700; color: var(--light); text-transform: uppercase;">Tue</div>
+            <div class="cal-dh" style="text-align: center; font-size: 12px; font-weight: 700; color: var(--light); text-transform: uppercase;">Wed</div>
+            <div class="cal-dh" style="text-align: center; font-size: 12px; font-weight: 700; color: var(--light); text-transform: uppercase;">Thu</div>
+            <div class="cal-dh" style="text-align: center; font-size: 12px; font-weight: 700; color: var(--light); text-transform: uppercase;">Fri</div>
+            <div class="cal-dh" style="text-align: center; font-size: 12px; font-weight: 700; color: var(--light); text-transform: uppercase;">Sat</div>
+          </div>
+          <div id="attendance-calGrid" class="cal-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;"></div>
+
+          <div style="display: flex; gap: 20px; justify-content: center; align-items: center; border-top: 1px solid var(--muted-bd); padding-top: 20px; font-size: 12.5px; font-weight: 600; color: var(--muted);">
+            <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 14px; height: 14px; background: var(--green); border-radius: 4px; display: inline-block;"></span>Present</div>
+            <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 14px; height: 14px; background: var(--red); border-radius: 4px; display: inline-block;"></span>Absent</div>
+            <div style="display: flex; align-items: center; gap: 8px;"><span style="width: 14px; height: 14px; background: #e2e8f0; border-radius: 4px; display: inline-block;"></span>No Data</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ LEARNER COMPETENCIES VIEW ══════════════ -->
+  <div id="view-competencies" class="main-view" style="display: none; flex-direction: column; flex: 1; overflow-y: auto;">
+    <header class="header">
+      <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="h-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+      </div>
+      <div class="h-text">
+        <h1 id="competencies-header-title">Sofia Delgado's Competencies</h1>
+        <p>Track skill development across all domains</p>
+      </div>
+      <div class="h-selector">
+        <div class="h-selector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <select class="competencies-student-select"><option>Sofia Delgado – Grade BV1</option></select>
+        <div class="h-selector-caret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </header>
+    <div class="content">
+      <div style="max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+        <!-- Score Ring Card -->
+        <div class="card" style="padding: 32px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: var(--dark);">Competency Development</h2>
+          <p style="font-size: 13px; color: var(--muted);">Track Sofia Delgado's skill development across all domains</p>
+          <div style="position: relative; width: 140px; height: 140px; margin: 8px 0;">
+            <svg viewBox="0 0 120 120" style="width:140px;height:140px;transform:rotate(-90deg);">
+              <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" stroke-width="12"/>
+              <circle id="comp-ring-fill" cx="60" cy="60" r="50" fill="none" stroke="url(#ringGrad)" stroke-width="12" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="47"/>
+              <defs><linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#38bdf8"/></linearGradient></defs>
+            </svg>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <span id="comp-ring-pct" style="font-size:28px;font-weight:900;color:var(--purple);line-height:1;">85%</span>
+              <span style="font-size:10px;font-weight:600;color:var(--muted);margin-top:2px;">Overall</span>
+            </div>
+          </div>
+          <div style="font-size: 14px; font-weight: 600; color: var(--dark);"><span id="comp-ring-name">Sofia Delgado</span>'s Competency Score</div>
+          <div style="font-size: 12px; color: var(--muted);">Based on IDP 2025 developmental frameworks</div>
+        </div>
+        <!-- Competency Domain Cards Grid -->
+        <div id="comp-domains-grid" class="comp-grid"></div>
+        <!-- Competency Insights -->
+        <div class="card" style="padding: 28px;">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 20px;">Competency Insights</h3>
+          <div class="insights-grid">
+            <div style="background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15); border-left: 4px solid var(--green); border-radius: 12px; padding: 16px;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--green); margin-bottom: 10px;">✓ Strengths</div>
+              <div id="comp-strengths" style="font-size: 12px; color: #065f46; line-height: 1.7;"></div>
+            </div>
+            <div style="background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.15); border-left: 4px solid var(--yellow); border-radius: 12px; padding: 16px;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--yellow); margin-bottom: 10px;">⚡ Areas for Growth</div>
+              <div id="comp-areas" style="font-size: 12px; color: #78350f; line-height: 1.7;"></div>
+            </div>
+            <div style="background: rgba(30,129,196,0.06); border: 1px solid rgba(30,129,196,0.15); border-left: 4px solid var(--blue); border-radius: 12px; padding: 16px;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--blue); margin-bottom: 10px;">★ Recommendations</div>
+              <div id="comp-recs" style="font-size: 12px; color: #1e3a5f; line-height: 1.7;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ PARENT PROFILE VIEW ══════════════ -->
+  <div id="view-parent" class="main-view" style="display: none; flex-direction: column; flex: 1; overflow-y: auto;">
+    <header class="header">
+      <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="h-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="h-text">
+        <h1>Parent's Profile</h1>
+        <p>Manage your personal information and preferences</p>
+      </div>
+      <div class="h-selector">
+        <div class="h-selector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <button onclick="alert('Edit Profile coming soon!')" style="background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#ffffff;padding:0;">Edit Profile</button>
+      </div>
+    </header>
+    <div class="content">
+      <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+        <!-- Profile Card -->
+        <div class="card parent-profile-layout" style="padding: 32px;">
+          <!-- Avatar Column -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+            <div id="parent-avatar" style="width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--blue));display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:#fff;">M</div>
+            <div style="text-align:center;">
+              <div id="parent-name-big" style="font-size:20px;font-weight:800;color:var(--dark);">Miguel Delgado</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px;">Parent Account</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:99px;">
+              <svg style="width:14px;height:14px;color:var(--green);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span style="font-size:12px;font-weight:700;color:var(--green);">Account Status</span>
+            </div>
+            <div style="font-size:12px;color:var(--muted);">Active Parent Account</div>
+          </div>
+          <!-- Info Column -->
+          <div style="display:flex;flex-direction:column;gap:20px;">
+            <h3 style="font-size:17px;font-weight:800;color:var(--dark);">Personal Information</h3>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div>
+                <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Full Name</div>
+                <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+                  <svg style="width:15px;height:15px;color:var(--blue);flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  <span id="parent-fullname" style="font-size:14px;font-weight:600;color:var(--dark);">Miguel Delgado</span>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Email Address</div>
+                <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+                  <svg style="width:15px;height:15px;color:var(--green);flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <span id="parent-email" style="font-size:14px;font-weight:600;color:var(--dark);">—</span>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                <div>
+                  <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Phone Number</div>
+                  <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+                    <svg style="width:15px;height:15px;color:var(--orange);flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 013 1.18 2 2 0 015 .95h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                    <span id="parent-phone" style="font-size:14px;font-weight:600;color:var(--dark);">Not provided</span>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">Address</div>
+                  <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+                    <svg style="width:15px;height:15px;color:var(--purple);flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span id="parent-address" style="font-size:14px;font-weight:600;color:var(--dark);">Not provided</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 style="font-size:17px;font-weight:800;color:var(--dark);">Account Information</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div style="padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;text-align:center;">
+                <div style="font-size:18px;font-weight:800;color:var(--blue);">Parent</div>
+                <div style="font-size:11px;font-weight:600;color:var(--muted);margin-top:4px;">Account Role</div>
+              </div>
+              <div style="padding:16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;text-align:center;">
+                <div style="font-size:18px;font-weight:800;color:var(--green);">Active</div>
+                <div style="font-size:11px;font-weight:600;color:var(--muted);margin-top:4px;">Account Status</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Preferences & Settings -->
+        <div class="card" style="padding: 28px;">
+          <h3 style="font-size: 17px; font-weight: 800; color: var(--dark); margin-bottom: 20px;">Preferences &amp; Settings</h3>
+          <div class="parent-preferences-grid">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:12px;">Notification Preferences</div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--dark);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:15px;height:15px;"> Email notifications for attendance</label>
+                <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--dark);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:15px;height:15px;"> Assessment result updates</label>
+                <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--dark);cursor:pointer;"><input type="checkbox" style="accent-color:var(--blue);width:15px;height:15px;"> Weekly progress reports</label>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--dark);margin-bottom:12px;">Privacy Settings</div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--dark);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--blue);width:15px;height:15px;"> Share progress with teachers</label>
+                <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--dark);cursor:pointer;"><input type="checkbox" style="accent-color:var(--blue);width:15px;height:15px;"> Allow data analytics</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ LOGOUT VIEW ══════════════ -->
+  <div id="view-logout" class="main-view" style="display: none; flex-direction: column; flex: 1; overflow-y: auto;">
+    <header class="header">
+      <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="h-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+      <div class="h-text">
+        <h1>Logout</h1>
+        <p>You are about to end your session</p>
+      </div>
+    </header>
+    <div class="content" style="display:flex;align-items:center;justify-content:center;flex:1;min-height:60vh;">
+      <div class="card" style="padding:48px 40px;max-width:480px;width:100%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px;">
+        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(239,68,68,0.3);">
+          <svg style="width:36px;height:36px;color:#fff;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <div>
+          <h2 style="font-size:24px;font-weight:800;color:var(--dark);margin-bottom:8px;">Sign Out?</h2>
+          <p style="font-size:14px;color:var(--muted);line-height:1.6;">Are you sure you want to log out of the Holistic Evaluator dashboard? You will need to sign in again to access your account.</p>
+        </div>
+        <div style="display:flex;gap:14px;width:100%;">
+          <button onclick="switchView('view-home');document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));document.querySelector('.nav-item[data-view=home]').classList.add('active');" style="flex:1;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:14px;font-weight:700;color:var(--dark);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">Cancel</button>
+          <button onclick="alert('Logged out! Redirecting to login...');" style="flex:1;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#ef4444,#dc2626);font-size:14px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(239,68,68,0.3);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">Yes, Sign Out</button>
+        </div>
+        <p style="font-size:12px;color:var(--muted);">Your data is securely saved. See you next time! 👋</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ HOLISTIC REPORT VIEW ══════════════ -->
+  <div id="view-reports" class="main-view" style="display: none; flex-direction: column; flex: 1; overflow-y: auto;">
+    <header class="header">
+      <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="h-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </div>
+      <div class="h-text">
+        <h1 id="reports-header-title">Sofia Delgado's Report</h1>
+        <p>Holistic progress, grades and competency overview</p>
+      </div>
+      <div class="h-selector">
+        <div class="h-selector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <select class="reports-student-select"><option>Sofia Delgado – Grade BV1</option></select>
+        <div class="h-selector-caret">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </header>
+    <div class="content">
+      <div style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+        <!-- Score Banner -->
+        <div class="card" style="padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; border-left: 5px solid #a855f7; flex-wrap: wrap; gap: 16px;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div id="reports-avatar-circle" style="width: 55px; height: 55px; border-radius: 50%; background: linear-gradient(135deg, #6d28d9, #a855f7); color: #fff; display: grid; place-items: center; font-size: 18px; font-weight: 700; border: 2px solid rgba(168,85,247,0.4);">S</div>
+            <div>
+              <h2 id="reports-student-name" style="font-size: 18px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">Sofia Delgado</h2>
+              <p style="font-size: 13.5px; font-weight: 600; color: var(--muted);">Holistic Performance Summary</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 24px; text-align: center;">
+            <div><div id="reports-overall-score" style="font-size: 28px; font-weight: 800; color: #a855f7; line-height: 1;">88%</div><div style="font-size: 10px; font-weight: 600; color: var(--muted); margin-top: 4px;">Overall Score</div></div>
+            <div><div id="reports-competency-score" style="font-size: 28px; font-weight: 800; color: #38bdf8; line-height: 1;">85%</div><div style="font-size: 10px; font-weight: 600; color: var(--muted); margin-top: 4px;">Competency</div></div>
+          </div>
+        </div>
+        <!-- Holistic Progress Bars -->
+        <div class="card" style="padding: 24px;">
+          <h3 style="font-size: 16px; font-weight: 700; color: var(--purple); margin-bottom: 20px;">Holistic Progress</h3>
+          <div id="reports-progress-dynamic" style="display: flex; flex-direction: column; gap: 14px;"></div>
+        </div>
+        <!-- Monthly Grades + Competencies Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <div class="card" style="padding: 24px;">
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--green); margin-bottom: 20px;">Monthly Grades</h3>
+            <div id="reports-grades-dynamic" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;"></div>
+          </div>
+          <div class="card" style="padding: 24px;">
+            <h3 style="font-size: 16px; font-weight: 700; color: var(--orange); margin-bottom: 20px;">Competencies</h3>
+            <div id="reports-skills-dynamic" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1668,11 +2585,13 @@
     document.querySelectorAll('.main-view').forEach(v => v.style.display = 'none');
     const target = document.getElementById(viewId);
     if (target) {
-      target.style.display = viewId === 'view-home' ? 'flex' : 'block';
-      if (viewId === 'view-home') {
+      const flexViews = ['view-home', 'view-attendance', 'view-competencies', 'view-parent', 'view-logout'];
+      target.style.display = flexViews.includes(viewId) ? 'flex' : 'block';
+      if (flexViews.includes(viewId)) {
         target.style.flexDirection = 'column';
         target.style.flex = '1';
-        target.style.overflow = 'hidden';
+        target.style.overflowY = 'auto';
+        if (viewId === 'view-home') target.style.overflow = 'hidden';
       }
     }
   }
@@ -1684,6 +2603,16 @@
       const view = item.getAttribute('data-view');
       if (view === 'home') switchView('view-home');
       else if (view === 'dashboard') switchView('view-dashboard');
+      else if (view === 'profile') switchView('view-profile');
+      else if (view === 'classes') switchView('view-classes');
+      else if (view === 'teachers') switchView('view-teachers');
+      else if (view === 'activities') switchView('view-activities');
+      else if (view === 'reports') switchView('view-reports');
+      else if (view === 'attendance') switchView('view-attendance');
+      else if (view === 'competencies') switchView('view-competencies');
+      else if (view === 'parent') switchView('view-parent');
+      else if (view === 'logout') switchView('view-logout');
+      
       
       // Auto-close sidebar on mobile
       if (window.innerWidth <= 768) {
@@ -1704,8 +2633,9 @@
   const IB = { green:'ib-green', blue:'ib-blue', purple:'ib-purple', orange:'ib-orange', pink:'ib-pink', red:'ib-red' };
 
   /* ─── Build Attendance Calendar from DB data ─── */
-  function buildCal(records) {
-    const grid = document.getElementById('calGrid');
+  function buildCal(records, gridId) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
     grid.innerHTML = '';
     // June 2026 starts on Monday = index 1 (Sun=0)
     const firstDay = new Date(2026, 5, 1).getDay(); // 0=Sun
@@ -1733,7 +2663,23 @@
     if (el('att-rate'))    el('att-rate').textContent    = student.attendanceRate + '%';
     if (el('att-present')) el('att-present').textContent = student.presentDays;
     if (el('att-missed'))  el('att-missed').textContent  = student.missedDays;
-    buildCal(student.attendanceRecords);
+
+    if (el('attendance-att-rate'))    el('attendance-att-rate').textContent    = student.attendanceRate + '%';
+    if (el('attendance-att-present')) el('attendance-att-present').textContent = student.presentDays;
+    if (el('attendance-att-missed'))  el('attendance-att-missed').textContent  = student.missedDays;
+    if (el('attendance-att-total'))   el('attendance-att-total').textContent   = (student.presentDays || 0) + (student.missedDays || 0);
+    if (el('attendance-rate-bar'))    el('attendance-rate-bar').style.width    = (student.attendanceRate || 100) + '%';
+
+    buildCal(student.attendanceRecords, 'calGrid');
+    buildCal(student.attendanceRecords, 'attendance-calGrid');
+
+    if (el('attendance-header-title')) {
+      el('attendance-header-title').textContent = `${student.name}'s Attendance`;
+    }
+    if (el('attendance-cal-month')) {
+      const now = new Date();
+      el('attendance-cal-month').textContent = now.toLocaleString('default', { month: 'long', year: 'numeric' });
+    }
   }
 
   /* ─── Render Competencies ─── */
@@ -1765,7 +2711,127 @@
     }
   }
 
-  /* ─── Render Progress Bars ─── */
+  /* ─── Render Dedicated Competencies View ─── */
+  function renderCompetenciesView(student) {
+    // Ring score
+    const pct = student.overallCompetency || 85;
+    const el = id => document.getElementById(id);
+    if (el('comp-ring-pct')) el('comp-ring-pct').textContent = pct + '%';
+    if (el('comp-ring-name')) el('comp-ring-name').textContent = student.name;
+    if (el('competencies-header-title')) el('competencies-header-title').textContent = `${student.name}'s Competencies`;
+    // Animate ring: dashoffset = 314 - (pct/100)*314
+    const fill = el('comp-ring-fill');
+    if (fill) fill.setAttribute('stroke-dashoffset', Math.round(314 - (pct / 100) * 314));
+
+    // Domain cards
+    const grid = el('comp-domains-grid');
+    if (grid && student.competencies && student.competencies.length) {
+      const domainColors = ['blue','green','purple','orange','pink'];
+      const domainIcons = [
+        '<polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+        '<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>',
+        '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+        '<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>',
+        '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>'
+      ];
+      const statusColors = { Proficient: '#10b981', Progressing: '#f59e0b', Developing: '#ef4444' };
+      const ibMap = { blue:'ib-blue', green:'ib-green', purple:'ib-purple', orange:'ib-orange', pink:'ib-pink' };
+      const colorMap = { blue:'var(--blue)', green:'var(--green)', purple:'var(--purple)', orange:'var(--orange)', pink:'#ec4899' };
+      grid.innerHTML = student.competencies.map((c, i) => {
+        const col = domainColors[i % domainColors.length];
+        const icn = domainIcons[i % domainIcons.length];
+        const clr = colorMap[col] || 'var(--blue)';
+        let subSkills = c.subSkills;
+        if (!subSkills || !subSkills.length) {
+          if (c.name === 'Problem Solving') {
+            subSkills = [
+              { name: 'Mathematical Reasoning', status: 'Proficient', score: 85 },
+              { name: 'Logical Deduction', status: 'Progressing', score: 78 },
+              { name: 'Creative Solutions', status: 'Developing', score: 62 }
+            ];
+          } else if (c.name === 'Critical Thinking') {
+            subSkills = [
+              { name: 'Analysis of Data', status: 'Proficient', score: 90 },
+              { name: 'Hypothesis Testing', status: 'Progressing', score: 75 },
+              { name: 'Objective Evaluation', status: 'Proficient', score: 88 }
+            ];
+          } else if (c.name === 'Communication') {
+            subSkills = [
+              { name: 'Verbal Expression', status: 'Proficient', score: 92 },
+              { name: 'Active Listening', status: 'Proficient', score: 95 },
+              { name: 'Written Reporting', status: 'Progressing', score: 80 }
+            ];
+          } else if (c.name === 'Leadership') {
+            subSkills = [
+              { name: 'Team Collaboration', status: 'Proficient', score: 88 },
+              { name: 'Conflict Resolution', status: 'Developing', score: 65 },
+              { name: 'Project Organization', status: 'Progressing', score: 72 }
+            ];
+          } else {
+            subSkills = [
+              { name: 'Concept Understanding', status: 'Progressing', score: 75 },
+              { name: 'Practical Application', status: 'Progressing', score: 70 }
+            ];
+          }
+        }
+        return `
+          <div class="card" style="padding:24px;display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="ib-sm ${ibMap[col]||'ib-blue'}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${icn}</svg>
+                </div>
+                <span style="font-size:14px;font-weight:700;color:var(--dark);">${c.name}</span>
+              </div>
+              <span style="font-size:16px;font-weight:800;color:${clr};">${c.percentage}%</span>
+            </div>
+            <div style="width:100%;height:5px;background:#f1f5f9;border-radius:99px;overflow:hidden;">
+              <div style="width:${c.percentage}%;height:100%;background:${clr};border-radius:99px;transition:width 0.8s ease;"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              ${subSkills.map(sk => `
+                <div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+                    <span style="font-size:12.5px;font-weight:600;color:var(--dark);">${sk.name}</span>
+                    <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:${statusColors[sk.status]||'#64748b'}22;color:${statusColors[sk.status]||'#64748b'};">${sk.status||'Progressing'}</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="flex:1;height:5px;background:#f1f5f9;border-radius:99px;overflow:hidden;">
+                      <div style="width:${sk.score||0}%;height:100%;background:${clr};border-radius:99px;"></div>
+                    </div>
+                    <span style="font-size:11px;font-weight:600;color:var(--muted);width:28px;text-align:right;">${sk.score||0}%</span>
+                  </div>
+                </div>`).join('')}
+            </div>
+          </div>`;
+      }).join('');
+    } else if (grid) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-size:14px;">No competency data available</div>';
+    }
+
+    // Insights
+    const strengths = (student.competencies||[]).filter(c => c.percentage >= 80).map(c => `• Excellent progress in ${c.name}`);
+    const areas = (student.competencies||[]).filter(c => c.percentage < 70).map(c => `• Continue reinforcing ${c.name}`);
+    const recs = ['• Introduce enrichment programme', '• Increase collaborative learning', '• Advance current learning plans'];
+    if (el('comp-strengths')) el('comp-strengths').innerHTML = (strengths.length ? strengths : ['• All areas progressing well']).join('<br>');
+    if (el('comp-areas')) el('comp-areas').innerHTML = (areas.length ? areas : ['• Continue building on all skills']).join('<br>');
+    if (el('comp-recs')) el('comp-recs').innerHTML = recs.join('<br>');
+  }
+
+  /* ─── Render Parent Profile View ─── */
+  function renderParentProfile(parent) {
+    if (!parent) return;
+    const el = id => document.getElementById(id);
+    const initial = (parent.name || 'P').charAt(0).toUpperCase();
+    if (el('parent-avatar')) el('parent-avatar').textContent = initial;
+    if (el('parent-name-big')) el('parent-name-big').textContent = parent.name || '—';
+    if (el('parent-fullname')) el('parent-fullname').textContent = parent.name || '—';
+    if (el('parent-email')) el('parent-email').textContent = parent.email || 'Not provided';
+    if (el('parent-phone')) el('parent-phone').textContent = parent.phone || 'Not provided';
+    if (el('parent-address')) el('parent-address').textContent = parent.address || 'Not provided';
+  }
+
+
   function renderProgress(student) {
     const pg = document.getElementById('progress-dynamic');
     if (!pg) return;
@@ -1814,11 +2880,9 @@
     if (sel) {
       sel.innerHTML = `<option>${student.name} – Grade ${student.grade}</option>`;
     }
-    // Avatar
-    const av = document.querySelector('.sb-avatar');
-    if (av && parent) av.textContent = parent.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    // Avatar (Keep graduation cap SVG, do not overwrite with initials)
     const userStrong = document.querySelector('.sb-user-text strong');
-    if (userStrong && parent) userStrong.textContent = parent.name;
+    if (userStrong && student) userStrong.textContent = student.name;
     const userSpan = document.querySelector('.sb-user-text span');
     if (userSpan) userSpan.textContent = `Grade ${student.grade}`;
   }
@@ -1886,33 +2950,397 @@
     }
   }
 
-  /* ─── Load a specific student into the home view ─── */
-  async function loadStudentView(studentId, e) {
+  /* ─── Render Learner's Profile View ─── */
+  function renderProfile(student) {
+    const el = id => document.getElementById(id);
+    if (el('profile-header-title')) el('profile-header-title').textContent = `${student.name}'s Profile`;
+    
+    const initials = student.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const avatarDisp = el('profile-avatar-display');
+    if (avatarDisp) {
+      avatarDisp.textContent = initials;
+      if (student.name.includes('Kiara')) {
+        avatarDisp.style.background = 'linear-gradient(135deg, #10b981, #0ea5e9)';
+      } else {
+        avatarDisp.style.background = 'linear-gradient(135deg, #4f8ef7, #a855f7)';
+      }
+    }
+    
+    if (el('profile-student-name'))   el('profile-student-name').textContent   = student.name;
+    if (el('profile-student-grade'))  el('profile-student-grade').textContent  = `Grade ${student.grade}`;
+    if (el('profile-student-school')) el('profile-student-school').textContent = student.school || 'AM International';
+    
+    if (el('profile-info-email'))    el('profile-info-email').textContent    = student.email;
+    if (el('profile-info-location')) el('profile-info-location').textContent = student.location || 'Location not specified';
+    if (el('profile-info-school'))   el('profile-info-school').textContent   = student.school || 'AM International';
+    if (el('profile-info-grade'))    el('profile-info-grade').textContent    = `Grade ${student.grade}`;
+  }
+
+  /* ─── Render Learner's Classes View ─── */
+  function renderClasses(student) {
+    const el = id => document.getElementById(id);
+    if (el('classes-header-title')) el('classes-header-title').textContent = `${student.name}'s Classes`;
+    
+    const initials = student.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const avatarCircle = el('classes-avatar-circle');
+    if (avatarCircle) {
+      avatarCircle.textContent = initials;
+      if (student.name.includes('Kiara')) {
+        avatarCircle.style.background = 'linear-gradient(135deg, #0ea5e9, #a855f7)';
+      } else {
+        avatarCircle.style.background = 'linear-gradient(135deg, #0d9488, #059669)';
+      }
+    }
+    
+    if (el('classes-student-name')) el('classes-student-name').textContent = student.name;
+    if (el('classes-student-details')) {
+      el('classes-student-details').textContent = `Grade ${student.grade} • ${student.school || 'AM International'}`;
+    }
+    
+    const countVal = el('classes-count-val');
+    const listContainer = el('classes-list-container');
+    
+    if (listContainer) {
+      const classes = student.enrolledClasses || [];
+      if (countVal) countVal.textContent = classes.length;
+      
+      if (classes.length === 0) {
+        listContainer.innerHTML = `<div style="text-align: center; color: var(--muted); padding: 20px;">No enrolled classes found.</div>`;
+      } else {
+        listContainer.innerHTML = classes.map(c => `
+          <div style="display: flex; align-items: center; justify-content: space-between; border: 1.5px solid var(--orange-bd); border-radius: 12px; padding: 20px; transition: all 0.2s; cursor: pointer; background: #fff;" onmouseover="this.style.borderColor='var(--orange)'; this.style.boxShadow='0 4px 12px rgba(245,127,32,0.08)'" onmouseout="this.style.borderColor='var(--orange-bd)'; this.style.boxShadow='none'">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div class="ib-lg ib-purple" style="background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.15); color: #a855f7; width: 48px; height: 48px; border-radius: 10px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              </div>
+              <div>
+                <h4 style="font-size: 15px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">${c.subject}</h4>
+                <div style="font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 6px;">${c.grade}</div>
+                <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #64748b;">
+                  <svg style="width: 14px; height: 14px; color: #94a3b8;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  Teacher: ${c.teacher}
+                </div>
+              </div>
+            </div>
+            <svg style="width: 18px; height: 18px; color: #94a3b8;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        `).join('');
+      }
+    }
+  }
+
+  /* ─── Render Teachers View ─── */
+  function renderTeachers(student) {
+    const el = id => document.getElementById(id);
+    if (el('teachers-header-title')) el('teachers-header-title').textContent = `${student.name}'s Teachers`;
+    const initials = student.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const avatarCircle = el('teachers-avatar-circle');
+    if (avatarCircle) {
+      avatarCircle.textContent = initials;
+      avatarCircle.style.background = student.name.includes('Kiara')
+        ? 'linear-gradient(135deg, #0ea5e9, #6d28d9)'
+        : 'linear-gradient(135deg, #1e40af, #3b82f6)';
+    }
+    if (el('teachers-student-name')) el('teachers-student-name').textContent = student.name;
+    if (el('teachers-student-details')) el('teachers-student-details').textContent = `Grade ${student.grade} • ${student.school || 'AM International'}`;
+    const teachers = student.teachers || [];
+    const countVal = el('teachers-count-val');
+    if (countVal) countVal.textContent = teachers.length;
+    const listContainer = el('teachers-list-container');
+    if (listContainer) {
+      if (teachers.length === 0) {
+        listContainer.innerHTML = `<div style="text-align:center;color:var(--muted);padding:20px;grid-column:1/-1;">No teachers assigned yet.</div>`;
+      } else {
+        listContainer.innerHTML = teachers.map(t => {
+          const ti = (t.name||'T').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+          return `<div style="background:var(--card-bg);border:1.5px solid rgba(56,189,248,0.2);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:12px;transition:all 0.25s;" onmouseover="this.style.borderColor='rgba(56,189,248,0.5)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(56,189,248,0.2)';this.style.transform='none'">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1e40af,#3b82f6);color:#fff;display:grid;place-items:center;font-size:17px;font-weight:700;flex-shrink:0;border:2px solid rgba(56,189,248,0.3);">${ti}</div>
+              <div>
+                <div style="font-size:16px;font-weight:700;color:var(--dark);">${t.name}</div>
+                <div style="font-size:12px;font-weight:600;color:var(--blue);margin-top:3px;">${t.subject}</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.15);border-radius:8px;padding:10px 14px;">
+              <svg style="width:13px;height:13px;color:#38bdf8;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span style="font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${t.email}</span>
+            </div>
+          </div>`;
+        }).join('');
+      }
+    }
+  }
+
+  /* ─── Render Activities View ─── */
+  function renderActivities(student) {
+    const el = id => document.getElementById(id);
+    if (el('activities-header-title')) el('activities-header-title').textContent = `${student.name}'s Activities`;
+    const initials = student.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const avatarCircle = el('activities-avatar-circle');
+    if (avatarCircle) {
+      avatarCircle.textContent = initials;
+      avatarCircle.style.background = student.name.includes('Kiara')
+        ? 'linear-gradient(135deg, #d97706, #f59e0b)'
+        : 'linear-gradient(135deg, #b45309, #f59e0b)';
+    }
+    if (el('activities-student-name')) el('activities-student-name').textContent = student.name;
+    if (el('activities-student-details')) el('activities-student-details').textContent = `Grade ${student.grade} • ${student.school || 'AM International'}`;
+    const activities = student.activities || [];
+    if (el('activities-total-val'))   el('activities-total-val').textContent   = activities.length;
+    if (el('activities-pending-val')) el('activities-pending-val').textContent = activities.filter(a=>a.status==='pending').length;
+    if (el('activities-done-val'))    el('activities-done-val').textContent    = activities.filter(a=>a.status==='completed').length;
+    const listContainer = el('activities-list-container');
+    if (listContainer) {
+      if (activities.length === 0) {
+        listContainer.innerHTML = `<div style="text-align:center;color:var(--muted);padding:20px;">No activities found.</div>`;
+      } else {
+        const SC = {
+          pending:   { color:'var(--orange)', bg:'var(--orange-bg)',  bd:'var(--orange-bd)',  label:'Pending' },
+          completed: { color:'#10b981', bg:'rgba(16,185,129,0.12)', bd:'rgba(16,185,129,0.3)', label:'Completed' },
+          overdue:   { color:'#ef4444', bg:'rgba(239,68,68,0.12)',  bd:'rgba(239,68,68,0.3)',  label:'Overdue' }
+        };
+        listContainer.innerHTML = activities.map(a => {
+          const sc = SC[a.status] || SC.pending;
+          return `<div style="display:flex;align-items:center;justify-content:space-between;border:1.5px solid rgba(245,158,11,0.2);border-radius:12px;padding:18px 20px;background:rgba(245,158,11,0.03);transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(245,158,11,0.4)'" onmouseout="this.style.borderColor='rgba(245,158,11,0.2)'">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div class="ib-lg ib-yellow" style="border-radius:12px;flex-shrink:0;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              </div>
+              <div>
+                <div style="font-size:15px;font-weight:700;color:var(--dark);margin-bottom:4px;">${a.name}</div>
+                <div style="font-size:12px;font-weight:600;color:var(--muted);">Category: ${a.category} • ${a.date||'No date'}</div>
+              </div>
+            </div>
+            <span style="background:${sc.bg};color:${sc.color};border:1px solid ${sc.bd};border-radius:20px;padding:4px 14px;font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:0;margin-left:12px;">${sc.label}</span>
+          </div>`;
+        }).join('');
+      }
+    }
+  }
+
+  /* ─── Render Holistic Report View ─── */
+  function renderReport(student) {
+    const el = id => document.getElementById(id);
+    if (el('reports-header-title')) el('reports-header-title').textContent = `${student.name}'s Report`;
+    const initials = student.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const avatarCircle = el('reports-avatar-circle');
+    if (avatarCircle) {
+      avatarCircle.textContent = initials;
+      avatarCircle.style.background = student.name.includes('Kiara')
+        ? 'linear-gradient(135deg, #0ea5e9, #a855f7)'
+        : 'linear-gradient(135deg, #6d28d9, #a855f7)';
+    }
+    if (el('reports-student-name'))       el('reports-student-name').textContent       = student.name;
+    if (el('reports-overall-score'))      el('reports-overall-score').textContent      = (student.overallScore || 88) + '%';
+    if (el('reports-competency-score'))   el('reports-competency-score').textContent   = (student.overallCompetency || 85) + '%';
+    const rpd = el('reports-progress-dynamic');
+    if (rpd && student.progressBars && student.progressBars.length) {
+      rpd.innerHTML = student.progressBars.map(p => `
+        <div class="prog-item">
+          <div class="prog-header">
+            <div class="prog-label"><div class="ib-xs ${IB[p.color]||'ib-purple'}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>${p.subject}</div>
+            <div class="prog-pct" style="color:${COLOR[p.color]||COLOR.purple}">${p.percentage}%</div>
+          </div>
+          <div class="prog-bar"><div class="prog-fill ${PF[p.color]||'pf-purple'}" style="width:0%" data-w="${p.percentage}%"></div></div>
+        </div>`).join('');
+      setTimeout(() => { rpd.querySelectorAll('.prog-fill[data-w]').forEach(b => b.style.width = b.dataset.w); }, 300);
+    }
+    const rgd = el('reports-grades-dynamic');
+    if (rgd && student.monthlyGrades && student.monthlyGrades.length) {
+      rgd.innerHTML = student.monthlyGrades.map(g => `
+        <div class="monthly-cell">
+          <div class="monthly-icon-row"><div class="ib-md ${IB[g.color]||'ib-green'}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>
+          </div></div>
+          <div class="monthly-val" style="color:${COLOR[g.color]||COLOR.green}">${g.grade}</div>
+          <div class="monthly-lbl">${g.month}</div>
+        </div>`).join('');
+    }
+    const rsd = el('reports-skills-dynamic');
+    if (rsd && student.competencies && student.competencies.length) {
+      rsd.innerHTML = student.competencies.map(c => `
+        <div class="skill-cell">
+          <div class="skill-icon-row"><div class="ib-md ${IB[c.color]||'ib-orange'}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div></div>
+          <div class="skill-val" style="color:${COLOR[c.color]||COLOR.orange}">${c.percentage}%</div>
+          <div class="skill-name">${c.name}</div>
+        </div>`).join('');
+    }
+  }
+
+  /* ─── Static Fallbacks ─── */
+  const FALLBACK_STUDENTS = {
+    'sofia_id': {
+      _id: 'sofia_id',
+      name: 'Sofia Delgado',
+      email: 'aaryamishra325+sofia@gmail.com',
+      grade: 'BV1',
+      school: 'AM International',
+      location: 'Location not specified',
+      overallScore: 88,
+      overallCompetency: 85,
+      enrolledClasses: [{ subject: 'Physical Development', grade: 'Grade BV1', teacher: 'Leena Bisht' }],
+      teachers: [{ name: 'Leena Bisht', email: 'aaryamishra325+leena@gmail.com', subject: 'Physical Development' }],
+      activities: [{ name: 'Physical Development', category: 'Physical Development', status: 'pending', date: '16/06/2026' }],
+      attendanceRate: 100,
+      presentDays: 13,
+      missedDays: 0,
+      attendanceRecords: [
+        { date: '2026-06-02', status: 'present' },
+        { date: '2026-06-03', status: 'present' },
+        { date: '2026-06-04', status: 'present' },
+        { date: '2026-06-05', status: 'present' },
+        { date: '2026-06-06', status: 'present' },
+        { date: '2026-06-09', status: 'absent' },
+        { date: '2026-06-10', status: 'present' },
+        { date: '2026-06-11', status: 'present' },
+        { date: '2026-06-12', status: 'present' },
+        { date: '2026-06-13', status: 'present' },
+        { date: '2026-06-16', status: 'present' },
+        { date: '2026-06-17', status: 'present' },
+        { date: '2026-06-18', status: 'present' },
+        { date: '2026-06-19', status: 'present' },
+        { date: '2026-06-20', status: 'today' },
+      ],
+      progressBars: [
+        { subject: 'Cognitive Development',  percentage: 85, color: 'blue'   },
+        { subject: 'Social-Emotional',        percentage: 83, color: 'green'  },
+        { subject: 'Physical Development',    percentage: 89, color: 'purple' },
+      ],
+      monthlyGrades: [
+        { month: 'This Month', grade: '+5%', color: 'green'  },
+        { month: 'Goals Met',  grade: '16',  color: 'blue'   },
+        { month: 'Awards',     grade: '5',   color: 'orange' },
+      ],
+      competencies: [
+        { name: 'Problem Solving',   percentage: 81, color: 'green'  },
+        { name: 'Critical Thinking', percentage: 86, color: 'blue'   },
+        { name: 'Communication',     percentage: 90, color: 'purple' },
+        { name: 'Leadership',        percentage: 86, color: 'orange' },
+      ],
+      growthAreas: [
+        'Strengthen mathematical reasoning',
+        'Enhance collaborative skills',
+        'Develop creative problem-solving',
+      ]
+    },
+    'kiara_id': {
+      _id: 'kiara_id',
+      name: 'Kiara Malhotra',
+      email: 'aaryamishra325+kiaramalhotra@gmail.com',
+      grade: 'BV3',
+      school: 'AM International',
+      location: 'Location not specified',
+      overallScore: 82,
+      overallCompetency: 79,
+      enrolledClasses: [{ subject: 'Physical Development', grade: 'Grade BV3', teacher: 'Leena Bisht' }],
+      teachers: [{ name: 'Leena Bisht', email: 'aaryamishra325+leena@gmail.com', subject: 'Physical Development' }],
+      activities: [{ name: 'Physical Development', category: 'Physical Development', status: 'pending', date: '16/06/2026' }],
+      attendanceRate: 90,
+      presentDays: 9,
+      missedDays: 1,
+      attendanceRecords: [
+        { date: '2026-06-02', status: 'present' },
+        { date: '2026-06-03', status: 'present' },
+        { date: '2026-06-04', status: 'absent' },
+        { date: '2026-06-05', status: 'present' },
+        { date: '2026-06-06', status: 'present' },
+        { date: '2026-06-10', status: 'present' },
+        { date: '2026-06-11', status: 'present' },
+        { date: '2026-06-12', status: 'present' },
+        { date: '2026-06-13', status: 'present' },
+        { date: '2026-06-20', status: 'today' },
+      ],
+      progressBars: [
+        { subject: 'Mathematics',    percentage: 72, color: 'blue'   },
+        { subject: 'Science',        percentage: 80, color: 'green'  },
+        { subject: 'English',        percentage: 88, color: 'purple' },
+        { subject: 'Social Studies', percentage: 85, color: 'orange' },
+        { subject: 'Arts & Crafts',  percentage: 90, color: 'pink'   },
+      ],
+      monthlyGrades: [
+        { month: 'Jan', grade: 'B+', color: 'purple' },
+        { month: 'Feb', grade: 'A',  color: 'green'  },
+        { month: 'Mar', grade: 'B',  color: 'blue'   },
+        { month: 'Apr', grade: 'B+', color: 'purple' },
+        { month: 'May', grade: 'A',  color: 'green'  },
+        { month: 'Jun', grade: 'B+', color: 'purple' },
+      ],
+      competencies: [
+        { name: 'Problem Solving',   percentage: 75, color: 'green'  },
+        { name: 'Critical Thinking', percentage: 82, color: 'blue'   },
+        { name: 'Communication',     percentage: 78, color: 'purple' },
+        { name: 'Leadership',        percentage: 72, color: 'orange' },
+      ],
+      growthAreas: [
+        'Improve reading comprehension',
+        'Build confidence in presentations',
+        'Strengthen logical reasoning',
+      ]
+    }
+  };
+
+  const FALLBACK_PARENT = {
+    name: 'Miguel Delgado',
+    email: 'miguel.delgado@email.com',
+    phone: '+1 555-0199',
+    address: '123 Learner Way, Education City',
+    avatarText: 'MD',
+    children: [FALLBACK_STUDENTS['sofia_id'], FALLBACK_STUDENTS['kiara_id']]
+  };
+
+  /* ─── Load a specific student into the views ─── */
+  async function loadStudentView(studentId, e, targetView = null) {
     if (e) e.preventDefault();
+    let student;
     try {
       const res = await fetch(`${API}/students/${studentId}`);
       const json = await res.json();
       if (!json.success) throw new Error(json.error);
-      const student = json.data;
-
-      renderAttendanceStats(student);
-      renderCompetencies(student);
-      renderProgress(student);
-      renderGrades(student);
-
-      // Update card titles
-      document.querySelectorAll('[data-student-name]').forEach(el => {
-        el.textContent = el.getAttribute('data-student-name').replace('{{name}}', student.name);
-      });
-
-      // Switch to home view and activate Home nav
-      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-      const homeNav = document.querySelector('.nav-item[data-view="home"]');
-      if (homeNav) homeNav.classList.add('active');
-      switchView('view-home');
+      student = json.data;
     } catch(err) {
-      console.error('Failed to load student:', err);
+      console.warn('Using local fallback for student:', studentId, err);
+      student = FALLBACK_STUDENTS[studentId] || FALLBACK_STUDENTS['sofia_id'];
     }
+
+    renderAttendanceStats(student);
+    renderCompetencies(student);
+    renderCompetenciesView(student);
+    renderProgress(student);
+    renderGrades(student);
+    renderProfile(student);
+    renderClasses(student);
+    renderTeachers(student);
+    renderActivities(student);
+    renderReport(student);
+
+    // Update card titles
+    document.querySelectorAll('[data-student-name]').forEach(el => {
+      el.textContent = el.getAttribute('data-student-name').replace('{{name}}', student.name);
+    });
+
+    // Synchronize all dropdowns value
+    document.querySelectorAll('.h-selector select').forEach(sel => {
+      sel.value = studentId;
+    });
+
+    // Determine which view to switch to
+    const currentActive = document.querySelector('.nav-item.active');
+    const activeView = currentActive ? currentActive.getAttribute('data-view') : 'home';
+    const defaultTarget = activeView === 'home' ? 'view-home' : activeView === 'profile' ? 'view-profile' : activeView === 'classes' ? 'view-classes' : activeView === 'teachers' ? 'view-teachers' : activeView === 'activities' ? 'view-activities' : activeView === 'reports' ? 'view-reports' : activeView === 'attendance' ? 'view-attendance' : activeView === 'competencies' ? 'view-competencies' : activeView === 'parent' ? 'view-parent' : 'view-home';
+    
+    const viewToSwitch = targetView || defaultTarget;
+
+    // Update active nav item matching the view
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    const viewCode = viewToSwitch === 'view-home' ? 'home' : viewToSwitch === 'view-profile' ? 'profile' : viewToSwitch === 'view-classes' ? 'classes' : viewToSwitch === 'view-teachers' ? 'teachers' : viewToSwitch === 'view-activities' ? 'activities' : viewToSwitch === 'view-reports' ? 'reports' : viewToSwitch === 'view-attendance' ? 'attendance' : viewToSwitch === 'view-competencies' ? 'competencies' : viewToSwitch === 'view-parent' ? 'parent' : 'dashboard';
+    const navItem = document.querySelector(`.nav-item[data-view="${viewCode}"]`);
+    if (navItem) navItem.classList.add('active');
+
+    switchView(viewToSwitch);
   }
 
   /* ─── Main Init: fetch everything from MongoDB ─── */
@@ -1943,35 +3371,82 @@
       renderHeader(student, parent);
       renderAttendanceStats(student);
       renderCompetencies(student);
+      renderCompetenciesView(student);
       renderProgress(student);
       renderGrades(student);
+      renderProfile(student);
+      renderClasses(student);
+      renderTeachers(student);
+      renderActivities(student);
+      renderReport(student);
       renderParentDashboard(parents);
+      if (parents.length) renderParentProfile(parents[0]);
 
-      // Populate student selector
-      const sel = document.querySelector('.h-selector select');
-      if (sel) {
+      // Populate student selectors across all views
+      document.querySelectorAll('.h-selector select').forEach(sel => {
         sel.innerHTML = students.map(s =>
           `<option value="${s._id}">${s.name} – Grade ${s.grade}</option>`
         ).join('');
-        sel.addEventListener('change', () => loadStudentView(sel.value, null));
-      }
+        sel.addEventListener('change', (e) => {
+          const val = e.target.value;
+          // Synchronize dropdown values
+          document.querySelectorAll('.h-selector select').forEach(s => s.value = val);
+          loadStudentView(val, null);
+        });
+      });
 
       console.log('✅ Dashboard loaded from MongoDB');
     } catch (err) {
       console.warn('⚠️ Could not reach backend API, using static fallback:', err.message);
-      // Static fallback for calendar and progress bars
+      
+      const student = FALLBACK_STUDENTS['sofia_id'];
+      const parent = FALLBACK_PARENT;
+
+      renderHeader(student, parent);
+      renderAttendanceStats(student);
+      renderCompetencies(student);
+      renderCompetenciesView(student);
+      renderProgress(student);
+      renderGrades(student);
+      renderProfile(student);
+      renderClasses(student);
+      renderTeachers(student);
+      renderActivities(student);
+      renderReport(student);
+      renderParentDashboard([parent]);
+      renderParentProfile(parent);
+
+      // Populate student selectors across all views with fallback options
+      document.querySelectorAll('.h-selector select').forEach(sel => {
+        sel.innerHTML = Object.values(FALLBACK_STUDENTS).map(s =>
+          `<option value="${s._id}">${s.name} – Grade ${s.grade}</option>`
+        ).join('');
+        sel.addEventListener('change', (e) => {
+          const val = e.target.value;
+          // Synchronize dropdown values
+          document.querySelectorAll('.h-selector select').forEach(s => s.value = val);
+          loadStudentView(val, null);
+        });
+      });
+
+      // Static fallback for calendar
       (function buildCal() {
-        const grid = document.getElementById('calGrid');
-        if (!grid) return;
-        const present=[2,3,4,5,6,10,11,12,13,16,17,18,19], absent=[9], today=20;
-        for(let i=0;i<1;i++){const e=document.createElement('div');e.className='cal-cell empty';grid.appendChild(e);}
-        for(let d=1;d<=30;d++){
-          const e=document.createElement('div');e.className='cal-cell';e.textContent=d;
-          if(d===today)e.classList.add('today');
-          else if(absent.includes(d))e.classList.add('absent');
-          else if(present.includes(d))e.classList.add('present');
-          grid.appendChild(e);
-        }
+        const renderGrid = (gridId) => {
+          const grid = document.getElementById(gridId);
+          if (!grid) return;
+          grid.innerHTML = '';
+          const present=[2,3,4,5,6,10,11,12,13,16,17,18,19], absent=[9], today=20;
+          for(let i=0;i<1;i++){const e=document.createElement('div');e.className='cal-cell empty';grid.appendChild(e);}
+          for(let d=1;d<=30;d++){
+            const e=document.createElement('div');e.className='cal-cell';e.textContent=d;
+            if(d===today)e.classList.add('today');
+            else if(absent.includes(d))e.classList.add('absent');
+            else if(present.includes(d))e.classList.add('present');
+            grid.appendChild(e);
+          }
+        };
+        renderGrid('calGrid');
+        renderGrid('attendance-calGrid');
       })();
       setTimeout(()=>{ document.querySelectorAll('.prog-fill[data-w]').forEach(b=>{ b.style.width=b.dataset.w; }); }, 400);
     }

@@ -52,6 +52,29 @@ const studentSchema = new mongoose.Schema({
   // Partnership score
   partnershipScore:  { type: Number, default: 92 },
 
+  // Profile & Classes extension
+  location:          { type: String, default: 'Location not specified' },
+  enrolledClasses:   [{
+    subject: { type: String },
+    grade:   { type: String },
+    teacher: { type: String }
+  }],
+
+  // Teachers, Activities & Attendance extension
+  teachers: [{
+    name:    { type: String },
+    email:   { type: String },
+    subject: { type: String }
+  }],
+  activities: [{
+    name:     { type: String },
+    category: { type: String },
+    status:   { type: String, enum: ['pending', 'completed', 'overdue'], default: 'pending' },
+    date:     { type: String }
+  }],
+
 }, { timestamps: true });
 
+
 module.exports = mongoose.model('Student', studentSchema);
+
