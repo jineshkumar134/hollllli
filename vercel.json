@@ -12,16 +12,11 @@
       "dest": "backend/server.js"
     },
     {
-      "src": "/holistic_logo.png",
-      "dest": "/holistic_logo.png"
-    },
-    {
-      "src": "/flower.png",
-      "dest": "/flower.png"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "backend/server.js"
+      "dest": "/index.html"
     }
   ]
 }
