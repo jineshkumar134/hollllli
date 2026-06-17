@@ -8,6 +8,18 @@
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "backend/server.js"
+    },
+    {
+      "src": "/holistic_logo.png",
+      "dest": "/holistic_logo.png"
+    },
+    {
+      "src": "/flower.png",
+      "dest": "/flower.png"
+    },
+    {
       "src": "/(.*)",
       "dest": "backend/server.js"
     }

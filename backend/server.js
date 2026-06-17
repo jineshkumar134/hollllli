@@ -10,17 +10,20 @@ const app = express();
 /* ─── Middleware ─── */
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..'))); // serve frontend
+
+/* ─── Static files ─── */
+const publicDir = path.join(__dirname, '..');
+app.use(express.static(publicDir));
 
 /* ─── API Routes ─── */
 app.use('/api', apiRoutes);
 
-/* ─── Serve frontend for all other routes ─── */
+/* ─── Serve index.html for all other routes ─── */
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'index.html'));
+  res.sendFile(path.join(publicDir, 'index.html'));
 });
 
-/* ─── Connect to MongoDB ─── */
+/* ─── MongoDB Connection (cached for serverless) ─── */
 let isConnected = false;
 async function connectDB() {
   if (isConnected) return;
@@ -31,11 +34,11 @@ async function connectDB() {
 
 connectDB().catch(err => console.error('❌ MongoDB error:', err.message));
 
-/* ─── Local dev: start server ─── */
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+/* ─── Local dev only ─── */
+if (!process.env.VERCEL) {
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
 }
 
-/* ─── Vercel: export the app ─── */
+/* ─── Export for Vercel serverless ─── */
 module.exports = app;
