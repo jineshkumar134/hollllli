@@ -6,36 +6,45 @@ const path      = require('path');
 const apiRoutes = require('./routes/api');
 
 const app = express();
-
-/* ─── Middleware ─── */
 app.use(cors());
 app.use(express.json());
 
-/* ─── Static files (index.html, images) ─── */
-app.use(express.static(path.join(__dirname, '..')));
+/* ─── Lazy MongoDB connection (connect only when API is called) ─── */
+let isConnected = false;
+async function connectDB() {
+  if (isConnected && mongoose.connection.readyState === 1) return;
+  await mongoose.connect(process.env.MONGODB_URI, {
+    serverSelectionTimeoutMS: 8000,
+    connectTimeoutMS: 8000,
+  });
+  isConnected = true;
+  console.log('✅ MongoDB connected');
+}
+
+/* ─── Connect DB before every API request ─── */
+app.use('/api', async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('❌ DB Error:', err.message);
+    return res.status(500).json({ success: false, error: 'DB connection failed: ' + err.message });
+  }
+});
 
 /* ─── API Routes ─── */
 app.use('/api', apiRoutes);
 
-/* ─── Fallback → index.html ─── */
+/* ─── Static files + index.html fallback ─── */
+const publicDir = path.join(__dirname, '..');
+app.use(express.static(publicDir));
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'index.html'));
+  res.sendFile(path.join(publicDir, 'index.html'));
 });
 
-/* ─── MongoDB (cached for serverless) ─── */
-let isConnected = false;
-async function connectDB() {
-  if (isConnected) return;
-  await mongoose.connect(process.env.MONGODB_URI);
-  isConnected = true;
-  console.log('✅ MongoDB connected');
-}
-connectDB().catch(err => console.error('❌', err.message));
-
-/* ─── Local dev server ─── */
+/* ─── Local dev only ─── */
 if (!process.env.VERCEL) {
   app.listen(3001, () => console.log('🚀 http://localhost:3001'));
 }
 
-/* ─── Export for Vercel ─── */
 module.exports = app;
