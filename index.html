@@ -14,12 +14,12 @@
       --sidebar-bg: #0c152b;
       --sidebar-w: 250px;
       --sidebar-c: 70px;
-      --green:  #10b981;  --green-bg:  rgba(16,185,129,0.08);   --green-bd:  rgba(16,185,129,0.2);
+      --green:  #0d9488;  --green-bg:  rgba(13,148,136,0.08);   --green-bd:  rgba(13,148,136,0.2);
       --blue:   #1e81c4;  --blue-bg:   rgba(30,129,196,0.08);  --blue-bd:   rgba(30,129,196,0.2);
-      --purple: #7c3aed;  --purple-bg: rgba(124,58,237,0.08);  --purple-bd: rgba(124,58,237,0.2);
+      --purple: #38bdf8;  --purple-bg: rgba(56,189,248,0.08);  --purple-bd: rgba(56,189,248,0.2);
       --orange: #f57f20;  --orange-bg: rgba(245,127,32,0.08);  --orange-bd: rgba(245,127,32,0.2);
       --yellow: #f59e0b;  --yellow-bg: rgba(245,158,11,0.08);  --yellow-bd: rgba(245,158,11,0.2);
-      --pink:   #ec4899;  --pink-bg:   rgba(236,72,153,0.08);  --pink-bd:   rgba(236,72,153,0.2);
+      --pink:   #06b6d4;  --pink-bg:   rgba(6,182,212,0.08);   --pink-bd:   rgba(6,182,212,0.2);
       --red:    #ef4444;  --red-bg:    rgba(239,68,68,0.08);   --red-bd:    rgba(239,68,68,0.2);
       
       --muted-bg: #f8fafc; --muted-bd: #e2e8f0;
@@ -78,11 +78,11 @@
     .ib-muted  { background: var(--muted-bg);  border-color: var(--muted-bd);  color: var(--muted); }
 
     /* Solid (for nav, avatar-style) */
-    .ib-solid-green  { background: linear-gradient(135deg, var(--green), #059669);   color: #fff; border-color: transparent; }
-    .ib-solid-blue   { background: linear-gradient(135deg, var(--blue),  #2563eb);   color: #fff; border-color: transparent; }
-    .ib-solid-purple { background: linear-gradient(135deg, var(--purple), #7c3aed);  color: #fff; border-color: transparent; }
+    .ib-solid-green  { background: linear-gradient(135deg, var(--green), #0a756b);   color: #fff; border-color: transparent; }
+    .ib-solid-blue   { background: linear-gradient(135deg, var(--blue),  #165f90);   color: #fff; border-color: transparent; }
+    .ib-solid-purple { background: linear-gradient(135deg, var(--purple), #0284c7);  color: #fff; border-color: transparent; }
     .ib-solid-orange { background: linear-gradient(135deg, var(--orange), #ea580c);  color: #fff; border-color: transparent; }
-    .ib-solid-pink   { background: linear-gradient(135deg, var(--pink),   #be185d);  color: #fff; border-color: transparent; }
+    .ib-solid-pink   { background: linear-gradient(135deg, var(--pink),   #0891b2);  color: #fff; border-color: transparent; }
 
     /* ─── LAYOUT ─── */
     .sidebar {
@@ -348,9 +348,9 @@
       color: var(--muted); cursor: pointer; transition: var(--ease);
     }
     .cal-cell.empty { pointer-events: none; }
-    .cal-cell.present { background: linear-gradient(135deg,var(--green),#059669); color:#fff; font-weight:700; box-shadow:0 2px 8px rgba(0,200,150,.35); }
+    .cal-cell.present { background: linear-gradient(135deg,var(--green),#0a756b); color:#fff; font-weight:700; box-shadow:0 2px 8px rgba(13,148,136,.35); }
     .cal-cell.absent  { background: linear-gradient(135deg,#ef4444,#dc2626); color:#fff; font-weight:700; box-shadow:0 2px 8px rgba(239,68,68,.35); }
-    .cal-cell.today   { background: linear-gradient(135deg,var(--purple),#7c3aed); color:#fff; font-weight:700; box-shadow:0 2px 8px rgba(168,85,247,.35); }
+    .cal-cell.today   { background: linear-gradient(135deg,var(--purple),#0284c7); color:#fff; font-weight:700; box-shadow:0 2px 8px rgba(56,189,248,.35); }
     .cal-cell:not(.empty):not(.present):not(.absent):not(.today):hover { background: #f1f5f9; }
 
     /* Attendance stat boxes */
@@ -398,11 +398,11 @@
     .prog-pct .ib-xs { opacity: 0.8; }
     .prog-bar { height: 8px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
     .prog-fill { height: 100%; border-radius: 99px; transition: width 1.3s cubic-bezier(0.4,0,0.2,1); }
-    .pf-green  { background: linear-gradient(90deg,var(--green),#059669); }
-    .pf-blue   { background: linear-gradient(90deg,var(--blue),#2563eb); }
-    .pf-purple { background: linear-gradient(90deg,var(--purple),#7c3aed); }
+    .pf-green  { background: linear-gradient(90deg,var(--green),#0a756b); }
+    .pf-blue   { background: linear-gradient(90deg,var(--blue),#165f90); }
+    .pf-purple { background: linear-gradient(90deg,var(--purple),#0284c7); }
     .pf-orange { background: linear-gradient(90deg,var(--orange),#ea580c); }
-    .pf-pink   { background: linear-gradient(90deg,var(--pink),#be185d); }
+    .pf-pink   { background: linear-gradient(90deg,var(--pink),#0891b2); }
 
     /* ─── MONTHLY STATS ─── */
     .monthly-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin: 12px 0; }
@@ -502,14 +502,14 @@
       border: 1px solid rgba(255,255,255,0.3);
     }
     .btn-icon svg { width: 13px; height: 13px; color: #fff; }
-    .btn-green  { background: linear-gradient(135deg,var(--green),#059669); color:#fff; box-shadow: 0 4px 14px rgba(16,185,129,.2); }
-    .btn-green:hover  { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(16,185,129,.35); }
+    .btn-green  { background: linear-gradient(135deg,var(--green),#0a756b); color:#fff; box-shadow: 0 4px 14px rgba(13,148,136,.2); }
+    .btn-green:hover  { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(13,148,136,.35); }
     .btn-blue   { background: linear-gradient(135deg,var(--blue),#155b8c);  color:#fff; box-shadow: 0 4px 14px rgba(30,129,196,.2); }
     .btn-blue:hover   { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(30,129,196,.35); }
-    .btn-orange { background: linear-gradient(135deg,var(--orange),#d86c18); color:#fff; box-shadow: 0 4px 14px rgba(245,127,32,.2); }
+    .btn-orange { background: linear-gradient(135deg,var(--orange),#ea580c); color:#fff; box-shadow: 0 4px 14px rgba(245,127,32,.2); }
     .btn-orange:hover { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(245,127,32,.35); }
-    .btn-purple { background: linear-gradient(135deg,var(--purple),#7c3aed); color:#fff; box-shadow: 0 4px 14px rgba(124,58,237,.2); }
-    .btn-purple:hover { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,.35); }
+    .btn-purple { background: linear-gradient(135deg,var(--purple),#0284c7); color:#fff; box-shadow: 0 4px 14px rgba(56,189,248,.2); }
+    .btn-purple:hover { transform:translateY(-1px); box-shadow: 0 6px 20px rgba(56,189,248,.35); }
 
     /* ─── ANIMATIONS ─── */
     @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
@@ -1039,10 +1039,10 @@
       border-color: transparent;
     }
     #attendance-calGrid .cal-cell.present {
-      background: linear-gradient(135deg, var(--green), #059669);
+      background: linear-gradient(135deg, var(--green), #0a756b);
       color: #fff;
       border-color: transparent;
-      box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+      box-shadow: 0 4px 12px rgba(13,148,136,0.3);
       font-weight: 700;
     }
     #attendance-calGrid .cal-cell.absent {
@@ -1304,7 +1304,7 @@
     <div class="grid">
 
       <!-- ══ CARD 1: ATTENDANCE ══ -->
-      <div class="card bt-green" id="card-attendance">
+      <div class="card bt-pink" id="card-attendance">
         <div class="card-body">
           <div class="card-header">
             <div class="ib-lg ib-green">
@@ -1355,7 +1355,7 @@
             </div>
           </div>
 
-          <button class="btn btn-green" onclick="document.querySelector('.nav-item[data-view=\'attendance\']').click()">
+          <button class="btn btn-orange" onclick="document.querySelector('.nav-item[data-view=\'attendance\']').click()">
             <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
             View Complete Attendance Report
           </button>
@@ -1363,7 +1363,7 @@
       </div>
 
       <!-- ══ CARD 2: COMPETENCIES ══ -->
-      <div class="card bt-purple" id="card-competencies">
+      <div class="card bt-blue" id="card-competencies">
         <div class="card-body">
           <div class="card-header">
             <div class="ib-lg ib-purple">
@@ -1426,7 +1426,7 @@
             <div class="growth-item"><div class="growth-dot" style="background:var(--green)"></div>Develop creative problem-solving</div>
           </div>
 
-          <button class="btn btn-purple">
+          <button class="btn btn-orange">
             <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
             View Detailed Competency Report
           </button>
@@ -1527,7 +1527,7 @@
             </div>
           </div>
 
-          <button class="btn btn-blue">
+          <button class="btn btn-orange">
             <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
             View Complete Progress Report
           </button>
@@ -1598,7 +1598,7 @@
             </div>
           </div>
 
-          <button class="btn btn-blue" style="margin-top:4px">
+          <button class="btn btn-orange" style="margin-top:4px">
             <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
             View Detailed Learning Report
           </button>
@@ -1606,7 +1606,7 @@
       </div>
 
       <!-- ══ CARD 5: LEARNING RESULTS ══ -->
-      <div class="card bt-green">
+      <div class="card bt-pink">
         <div class="card-body">
           <div class="card-header">
             <div class="ib-lg ib-green">
@@ -1682,7 +1682,7 @@
             </div>
           </div>
 
-          <button class="btn btn-green">
+          <button class="btn btn-orange">
             <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
             View Complete Results
           </button>
@@ -1690,7 +1690,7 @@
       </div>
 
       <!-- ══ CARD 6: PARTNERSHIP TRACKER ══ -->
-      <div class="card bt-pink">
+      <div class="card bt-green">
         <div class="card-body">
           <div class="card-header">
             <div class="ib-lg ib-pink">
@@ -1767,7 +1767,7 @@
             <div class="prog-fill pf-green" style="width:0%" data-w="92%"></div>
           </div>
 
-          <button class="btn btn-purple" style="margin-top:14px">
+          <button class="btn btn-orange" style="margin-top:14px">
             <div class="btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
             View Partnership Dashboard
           </button>
